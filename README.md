@@ -17,3 +17,8 @@ $ make build
 ```
 
 This builds the `localhost/insights-proxy:latest` container image.
+
+## Insights Proxy Documentation
+
+- [Insights Proxy Notes](doc/notes.md)
+

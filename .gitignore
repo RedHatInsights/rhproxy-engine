@@ -1,2 +1,7 @@
 # test scripts directory
+# Development scripts
 /s
+# Certs directory mounted during development
+/certs
+# Development notes
+/notes

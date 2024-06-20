@@ -22,3 +22,8 @@ else
     echo "Either the ${INSIGHTS_PROXY_NAME} server.key or server.crt certificate is missing in ${CERTS_PATH}."
     exit 1
 fi
+echo ""
+echo "--------------------------------------------"
+echo "Available Certificates:"
+ls -l "${CERTS_PATH}"
+echo "--------------------------------------------"
