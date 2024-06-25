@@ -11,4 +11,4 @@ source ${APP_ROOT}/etc/env_init.sh
 ${APP_ROOT}/etc/insights_init_certs.sh
 
 echo "Starting ${INSIGHTS_PROXY_NAME} ..."
-nginx -g "daemon off;"
+${NGINX_BASE}/usr/sbin/nginx -g "daemon off;"
