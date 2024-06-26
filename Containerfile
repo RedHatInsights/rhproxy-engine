@@ -3,9 +3,11 @@ FROM registry.access.redhat.com/ubi9-minimal as base
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
 
-ENV NGINX_VERSION=1.24
-ENV NGINX_SHORT_VER=124
-
+ENV NGINX_VERSION="1.24.0"
+ENV NGINX_USER="nginx"
+ENV NGINX_GROUP="nginx"
+ENV NGINX_UID="1001"
+ENV NGINX_GID="1001"
 ENV NGINX_BASE=${APP_ROOT}/nginx
 ENV NGINX_DEFAULT_CONF_PATH=${NGINX_BASE}/etc/nginx.default.d
 ENV NGINX_PERL_MODULE_PATH=${NGINX_BASE}/etc/perl
@@ -28,7 +30,7 @@ RUN microdnf install -y\
       util-linux \
       vim
 
-# Build nginx 1.24 with the http_proxy_connect
+# Build nginx with the http_proxy_connect
 FROM base as build
 
 RUN microdnf install -y\
@@ -51,9 +53,9 @@ RUN microdnf install -y\
 RUN mkdir -p /opt/app-root/src \
       && cd /opt/app-root/src \
       && git clone https://github.com/chobits/ngx_http_proxy_connect_module \
-      && wget http://nginx.org/download/nginx-1.24.0.tar.gz \
-      && tar xfz nginx-1.24.0.tar.gz \
-      && cd nginx-1.24.0 \
+      && wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
+      && tar xfz nginx-${NGINX_VERSION}.tar.gz \
+      && cd nginx-${NGINX_VERSION} \
       && patch -p1 < ../ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_102101.patch \
       && CLIENT_BODY_TEMP_PATH=${NGINX_BASE}/var/lib/nginx/tmp/client_body \
       && HTTP_PROXY_TEMP_PATH=${NGINX_BASE}/var/lib/nginx/tmp/proxy \
@@ -72,8 +74,8 @@ RUN mkdir -p /opt/app-root/src \
 	    --http-scgi-temp-path=${HTTP_SCGI_TEMP_PATH} \
 	    --pid-path=${NGINX_BASE}/run/nginx.pid \
 	    --lock-path=${NGINX_BASE}/run/lock/subsys/nginx \
-	    --user=nginx \
-	    --group=nginx \
+	    --user=${NGINX_USER} \
+	    --group=${NGINX_GROUP} \
 	    --with-compat \
 	    --with-debug \
 	    --with-file-aio \
@@ -123,8 +125,8 @@ RUN mkdir -p ${NGINX_LOG_PATH} \
 
 # Setup the user's environment
 ENV HOME=${NGINX_USER_HOME}
-RUN groupadd --gid 1001 nginx \
-      && useradd --uid 1001 --gid nginx --groups root --shell /bin/bash --home-dir ${NGINX_USER_HOME} --create-home nginx
+RUN groupadd --gid ${NGINX_GID} ${NGINX_GROUP} \
+      && useradd --uid ${NGINX_UID} --gid ${NGINX_GROUP} --groups root --shell /bin/bash --home-dir ${NGINX_USER_HOME} --create-home ${NGINX_USER}
 
 # Let's copy the built nginx
 COPY --from=build ${NGINX_BASE} ${NGINX_BASE}
@@ -138,11 +140,11 @@ COPY app/entrypoint.sh ${APP_ROOT}/.
 
 # Let's have nginx own the app
 USER 0
-RUN chown -R nginx:nginx ${APP_ROOT}
+RUN chown -R ${NGINX_USER}:${NGINX_GROUP} ${APP_ROOT}
 # Note: --pid-path and --lock-path above are not honored.
-RUN chown nginx:root /run /run/lock
+RUN chown ${NGINX_USER}:root /run /run/lock
 RUN chmod 775 /run /run/lock
-USER 1001
+USER ${NGINX_UID}
 
 # Exposing the Insights Proxy port 3128
 EXPOSE 3128
