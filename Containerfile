@@ -108,7 +108,7 @@ RUN mkdir -p /opt/app-root/src \
 	    --with-stream_ssl_module \
 	    --with-stream_ssl_preread_module \
 	    --with-threads \
-	    --add-module="/opt/app-root/src/ngx_http_proxy_connect_module" \
+	    --add-dynamic-module="/opt/app-root/src/ngx_http_proxy_connect_module" \
       && mkdir -p ${CLIENT_BODY_TEMP_PATH} ${HTTP_PROXY_TEMP_PATH} ${HTTP_FASTCGI_TEMP_PATH} ${HTTP_UWSGI_TEMP_PATH} ${HTTP_SCGI_TEMP_PATH} \
       && make \
       && make install
