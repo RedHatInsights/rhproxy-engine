@@ -3,6 +3,7 @@ FROM registry.access.redhat.com/ubi9-minimal as base
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
 
+# Let's define the nginx defaults
 ENV NGINX_VERSION="1.24.0"
 ENV NGINX_USER="nginx"
 ENV NGINX_GROUP="nginx"
@@ -17,10 +18,18 @@ ENV NGINX_LOG_PATH=/var/log/nginx
 
 ENV NGINX_USER_HOME=${APP_ROOT}/src
 
+# Let's declare the Insights-Proxy configurable parameters
+ENV INSIGHTS_PROXY_DEBUG_CONFIG="0"
+ENV INSIGHTS_PROXY_SERVICE_PORT=3128
+ENV INSIGHTS_PROXY_SERVER_NAMES="*.redhat.com"
+ENV INSIGHTS_PROXY_SERVERS_FILE=""
+ENV INSIGHTS_PROXY_DNS_SERVER="8.8.8.8"
+
 WORKDIR ${NGINX_USER_HOME}
 
 RUN mkdir ${NGINX_BASE}
 RUN microdnf install -y\
+      gettext \
       zlib \
       libaio \
       openssl \
@@ -132,7 +141,7 @@ RUN groupadd --gid ${NGINX_GID} ${NGINX_GROUP} \
 COPY --from=build ${NGINX_BASE} ${NGINX_BASE}
 
 # Add Insights-Proxy sources:
-ADD app/etc/nginx/nginx.conf ${NGINX_CONF_PATH}
+ADD app/etc/nginx/nginx.conf.template ${NGINX_CONF_PATH}.template
 ADD app/etc/*.sh ${APP_ROOT}/etc/
 
 # Copy and set the Insights-Proxy entrypoint:
@@ -146,7 +155,7 @@ RUN chown ${NGINX_USER}:root /run /run/lock
 RUN chmod 775 /run /run/lock
 USER ${NGINX_UID}
 
-# Exposing the Insights Proxy port 3128
-EXPOSE 3128
+# Exposing the Insights Proxy port
+EXPOSE ${INSIGHTS_PROXY_SERVICE_PORT}
 
 CMD ["/bin/bash", "/opt/app-root/entrypoint.sh"]
