@@ -15,18 +15,11 @@ http {
 
     # Let's tunnel only RedHat Insights upstream servers
     server {
-        listen                          3128;
-        resolver                        10.11.5.160 ipv6=off;
+        listen                          ${INSIGHTS_PROXY_SERVICE_PORT};
+        resolver                        ${INSIGHTS_PROXY_DNS_SERVER} ipv6=off;
 
         # Allowed Insights servers
-        server_name                     console.redhat.com;
-        server_name                     cert.console.redhat.com
-        server_name                     cert-api.access.redhat.com;
-        server_name                     subscription.rhsm.redhat.com;
-        server_name                     sso.redhat.com;
-
-        # Support dnf/yum installs
-        server_name                     cdn.redhat.com;
+        server_name                     ${INSIGHTS_PROXY_SERVER_NAMES};
 
         # Forward proxy for CONNECT requests (Tunneling)
         proxy_connect;
@@ -45,7 +38,7 @@ http {
 
     # Let's deny all other requests
     server {
-        listen                          3128;
+        listen                          ${INSIGHTS_PROXY_SERVICE_PORT};
 
         server_name                     ~.+;
         return                          404;

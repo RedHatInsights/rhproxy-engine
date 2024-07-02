@@ -35,8 +35,13 @@ if [ ! -f "${PEM_FILE}" ]; then
     cat "${KEY_FILE}" >  "${PEM_FILE}"
     cat "${CRT_FILE}" >> "${PEM_FILE}"
 fi
-echo ""
-echo "--------------------------------------------"
-echo "Available Certificates:"
-ls -l "${CERTS_PATH}"
-echo "--------------------------------------------"
+
+
+if [ "${INSIGHTS_PROXY_DEBUG_CONFIG}" = "1" ]; then
+    echo
+    echo "----------------------------------------------------------------------"
+    echo "Available Certificates:"
+    echo
+    ls -l "${CERTS_PATH}"
+    echo
+fi
