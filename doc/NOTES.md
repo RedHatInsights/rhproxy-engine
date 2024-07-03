@@ -4,30 +4,11 @@
 
 The Insights Proxy channels all Insights communication from the customer's site and systems 
 to the Red Hat Insights servers. The Insights Proxy leverages NGINX to act as a forward proxy
-to console.redhat.com, sso.redhat.com as well as optionally the staging servers or later on
-the local On-Prem Insights installation.
+to console.redhat.com, sso.redhat.com as well as related subscription endpoints.
 
-The Insights Proxy does not terminate SSL requests but rather does SSL passthrough to the
+The Insights Proxy does not terminate SSL requests but rather does SSL tunneling and passthrough to the
 back-end servers. With no SSL terminate, the Insights Proxy does not have access to request
-details and thus relies on the SNI (Server Name Indication) in the TLS handshake protocol
-which includes the target server_name.
-
-With the server_name, the Insights Proxy propery channels the requests to the appropriate
-upstream servers.
-
-TLS SNI uses a Hello insecure message which includes the hostname before transferring to the
-secure 443 for the request. It is part of TLS 1.2.
-
-OpenSSL populates the SNI buffers upon normal requests. It had some issues in the past
-doing so going through a proxy:
-
-
-Required fixes:
-
-Ensure s_client sends SNI data when used with -proxy
-
-  - [https://github.com/openssl/openssl/issues/17232](https://github.com/openssl/openssl/issues/17232)
-  - [https://github.com/openssl/openssl/pull/17248](https://github.com/openssl/openssl/pull/17248)
+details and relies on tunneling to forward all SSL/TLS protocol.
 
 
 ### Accessing via curl:
@@ -40,11 +21,39 @@ $ curl -vvv -kL \
   https://console.redhat.com/api/inventory/v1/hosts
 ```
 
-- Through the Proxy using --resolve:
+- Through the Proxy using the -x option:
 
 ```
 $ curl -vvv -kL \
   --user {{user-id}}@redhat.com:{{user-password}} \
-  --resolve console.redhat.com:443:{{ip-of-proxy}} \
+  -x {{ip-of-proxy}}:3128 \
   https://console.redhat.com/api/inventory/v1/hosts
 ```
+
+- Via the `https_proxy` environment variable:
+
+```
+$ export https_proxy="http://{{ip-of-proxy}}:3128"
+$ curl -vvv -kL \
+  --user {{user-id}}@redhat.com:{{user-password}} \
+  https://console.redhat.com/api/inventory/v1/hosts
+```
+
+## Insights Proxy web server
+
+The Insights Proxy also provides a web server at the default port of 8443 for serving files to clients.
+
+You can access the landing page by opening
+
+```
+https://{{ip-of-proxy}}:8443
+```
+
+Which provides a link to the download folder.
+
+Content from the download folder can also be fetched directly via curl. For example if `rhsm.conf` is provided, you can use the following to access it:
+
+```
+$ curl -kL https://{{ip-of-proxy}:8443/download/rhsm.conf -o rhsm.conf
+```
+
