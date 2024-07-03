@@ -9,7 +9,7 @@ export INSIGHTS_PROXY_NAME="Insights-Proxy"
 # Create the self-signed certificates if not provided.
 ${APP_ROOT}/etc/insights_init_certs.sh
 
-envsubst "\$INSIGHTS_PROXY_SERVICE_PORT, \$INSIGHTS_PROXY_SERVER_NAMES, \$INSIGHTS_PROXY_DNS_SERVER" \
+envsubst "\$INSIGHTS_PROXY_SERVICE_PORT, \$INSIGHTS_PROXY_SERVER_NAMES, \$INSIGHTS_PROXY_DNS_SERVER, \$INSIGHTS_PROXY_DISABLE" \
     < ${NGINX_CONF_PATH}.template \
     > ${NGINX_CONF_PATH}
 

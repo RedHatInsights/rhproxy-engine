@@ -15,11 +15,16 @@ http {
 
     # Let's tunnel only RedHat Insights upstream servers
     server {
-        listen                          ${INSIGHTS_PROXY_SERVICE_PORT};
-        resolver                        ${INSIGHTS_PROXY_DNS_SERVER} ipv6=off;
+        listen        ${INSIGHTS_PROXY_SERVICE_PORT};
+        resolver      ${INSIGHTS_PROXY_DNS_SERVER} ipv6=off;
+        set $disabled ${INSIGHTS_PROXY_DISABLE};
 
         # Allowed Insights servers
-        server_name                     ${INSIGHTS_PROXY_SERVER_NAMES};
+        server_name   ${INSIGHTS_PROXY_SERVER_NAMES};
+
+        if ( $disabled = "1" ) {
+            return  503;
+        }
 
         # Forward proxy for CONNECT requests (Tunneling)
         proxy_connect;
@@ -38,9 +43,22 @@ http {
 
     # Let's deny all other requests
     server {
-        listen                          ${INSIGHTS_PROXY_SERVICE_PORT};
+        listen        ${INSIGHTS_PROXY_SERVICE_PORT};
+        resolver      ${INSIGHTS_PROXY_DNS_SERVER} ipv6=off;
+        set $disabled ${INSIGHTS_PROXY_DISABLE};
 
-        server_name                     ~.+;
-        return                          404;
+        server_name   ~.+;
+
+        if ( $disabled = "1" ) {
+            return  503;
+        }
+
+        # Forward proxy for CONNECT requests (Tunneling)
+        proxy_connect;
+        proxy_connect_allow             443;
+        proxy_connect_connect_timeout   10s;
+        proxy_connect_data_timeout      60s;
+
+        return  404;
     }
 }
