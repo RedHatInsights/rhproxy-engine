@@ -9,9 +9,19 @@ export INSIGHTS_PROXY_NAME="Insights-Proxy"
 # Create the self-signed certificates if not provided.
 ${APP_ROOT}/etc/insights_init_certs.sh
 
-envsubst "\$INSIGHTS_PROXY_SERVICE_PORT, \$INSIGHTS_PROXY_SERVER_NAMES, \$INSIGHTS_PROXY_DNS_SERVER, \$INSIGHTS_PROXY_DISABLE" \
-    < ${NGINX_CONF_PATH}.template \
-    > ${NGINX_CONF_PATH}
+# Let's make sure the download folder is created
+mkdir -p ${APP_DOWNLOAD}
+
+CONFIG_ENV_VARS="\
+\$INSIGHTS_PROXY_SERVICE_PORT,\
+\$INSIGHTS_PROXY_SERVER_NAMES,\
+\$INSIGHTS_PROXY_DNS_SERVER,\
+\$INSIGHTS_PROXY_DISABLE,\
+\$INSIGHTS_WEB_SERVER_PORT,\
+\$INSIGHTS_WEB_SERVER_DISABLE\
+"
+
+envsubst "${CONFIG_ENV_VARS}" < ${NGINX_CONF_PATH}.template > ${NGINX_CONF_PATH}
 
 if [ "${INSIGHTS_PROXY_DEBUG_CONFIG}" = "1" ]; then
     echo
