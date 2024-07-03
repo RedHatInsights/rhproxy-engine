@@ -4,7 +4,7 @@ Insights Proxy to RedHat's Hybrid Cloud Console
 
 ## Architecture
 
-This container leverages the [ubi9/nginx-124](https://catalog.redhat.com/software/containers/rhel9/nginx-124/657b0584200b5c4483d7e5f4?architecture=amd64&image=6658a67d302d7f34810970fe&container-tabs=overview) NGINX web server and reverse proxy to channel all communications to the RedHat Hybrid Cloud Console at [console.redhat.com](console.redhat.com).
+This container builds version 1.24 of NGINX web server and includes the http proxy connect module which provides tunneling support. The NGINX web server services content at the default port 8443 and provides the forward proxy tunnel at the default port of 3128 for all communications to the RedHat Hybrid Cloud Console at [console.redhat.com](console.redhat.com) and related subscription and authorization sites.
 
 ## Development
 
