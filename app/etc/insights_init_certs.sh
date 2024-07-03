@@ -5,13 +5,12 @@
 set -e
 
 # Let's make sure our certificates directory exists.
-CERTS_PATH="${APP_ROOT}/certs"
-mkdir -p "${CERTS_PATH}"
+mkdir -p "${APP_CERTS}"
 
 export CERT_PREFIX="insights-proxy"
-export KEY_FILE="${CERTS_PATH}/${CERT_PREFIX}.key"
-export CRT_FILE="${CERTS_PATH}/${CERT_PREFIX}.crt"
-export PEM_FILE="${CERTS_PATH}/${CERT_PREFIX}.pem"
+export KEY_FILE="${APP_CERTS}/${CERT_PREFIX}.key"
+export CRT_FILE="${APP_CERTS}/${CERT_PREFIX}.crt"
+export PEM_FILE="${APP_CERTS}/${CERT_PREFIX}.pem"
 
 if [ -f "${KEY_FILE}" ] && [ -f "${CRT_FILE}" ]; then
     echo "Using ${INSIGHTS_PROXY_NAME} certificates ..."
@@ -26,7 +25,7 @@ elif [ ! -f "${KEY_FILE}" ] && [ ! -f "${CRT_FILE}" ]; then
         -addext "subjectAltName=DNS:localhost"
     chmod 600 "${KEY_FILE}"
 else
-    echo "Either the ${INSIGHTS_PROXY_NAME} ${CERT_PREFIX}.key or ${CERT_PREFIX}.crt certificate is missing in ${CERTS_PATH}."
+    echo "Either the ${INSIGHTS_PROXY_NAME} ${CERT_PREFIX}.key or ${CERT_PREFIX}.crt certificate is missing in ${APP_CERTS}."
     exit 1
 fi
 
@@ -42,6 +41,6 @@ if [ "${INSIGHTS_PROXY_DEBUG_CONFIG}" = "1" ]; then
     echo "----------------------------------------------------------------------"
     echo "Available Certificates:"
     echo
-    ls -l "${CERTS_PATH}"
+    ls -l "${APP_CERTS}"
     echo
 fi

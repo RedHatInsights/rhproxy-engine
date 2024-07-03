@@ -2,6 +2,9 @@ FROM registry.access.redhat.com/ubi9-minimal as base
 
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
+ENV APP_HOME=${APP_ROOT}/src
+ENV APP_DOWNLOAD=${APP_ROOT}/download
+ENV APP_CERTS=${APP_ROOT}/certs
 
 # Let's define the nginx defaults
 ENV NGINX_VERSION="1.24.0"
@@ -16,8 +19,6 @@ ENV NGINX_CONF_PATH=${NGINX_BASE}/etc/nginx/nginx.conf
 ENV NGINX_CONFIGURATION_PATH=${NGINX_BASE}/etc/nginx.d
 ENV NGINX_LOG_PATH=/var/log/nginx
 
-ENV NGINX_USER_HOME=${APP_ROOT}/src
-
 # Let's declare the Insights-Proxy configurable parameters
 ENV INSIGHTS_PROXY_DISABLE="0"
 ENV INSIGHTS_PROXY_DEBUG_CONFIG="0"
@@ -25,7 +26,11 @@ ENV INSIGHTS_PROXY_SERVICE_PORT=3128
 ENV INSIGHTS_PROXY_SERVER_NAMES="*.redhat.com"
 ENV INSIGHTS_PROXY_DNS_SERVER="8.8.8.8"
 
-WORKDIR ${NGINX_USER_HOME}
+# Let's enable the Insights-Proxy web server parmaeters
+ENV INSIGHTS_WEB_SERVER_DISABLE="0"
+ENV INSIGHTS_WEB_SERVER_PORT=8443
+
+WORKDIR ${APP_HOME}
 
 RUN mkdir ${NGINX_BASE}
 RUN microdnf install -y\
@@ -133,9 +138,9 @@ RUN mkdir -p ${NGINX_LOG_PATH} \
       && ln -sf /dev/stderr ${NGINX_LOG_PATH}/error.log
 
 # Setup the user's environment
-ENV HOME=${NGINX_USER_HOME}
+ENV HOME=${APP_HOME}
 RUN groupadd --gid ${NGINX_GID} ${NGINX_GROUP} \
-      && useradd --uid ${NGINX_UID} --gid ${NGINX_GROUP} --groups root --shell /bin/bash --home-dir ${NGINX_USER_HOME} --create-home ${NGINX_USER}
+      && useradd --uid ${NGINX_UID} --gid ${NGINX_GROUP} --groups root --shell /bin/bash --home-dir ${APP_HOME} --create-home ${NGINX_USER}
 
 # Let's copy the built nginx
 COPY --from=build ${NGINX_BASE} ${NGINX_BASE}
@@ -147,6 +152,16 @@ ADD app/etc/*.sh ${APP_ROOT}/etc/
 # Copy and set the Insights-Proxy entrypoint:
 COPY app/entrypoint.sh ${APP_ROOT}/.
 
+# Copy the web server content:
+RUN mkdir -p ${APP_HOME}/img/
+COPY app/src/*.html ${APP_HOME}/.
+COPY app/src/*.ico ${APP_HOME}/.
+COPY app/src/img/* ${APP_HOME}/img/.
+
+# Let's make sure we have our certs and downloads directories created:
+RUN mkdir -p ${APP_CERTS}
+RUN mkdir -p ${APP_DOWNLOAD}
+
 # Let's have nginx own the app
 USER 0
 RUN chown -R ${NGINX_USER}:${NGINX_GROUP} ${APP_ROOT}
@@ -155,7 +170,8 @@ RUN chown ${NGINX_USER}:root /run /run/lock
 RUN chmod 775 /run /run/lock
 USER ${NGINX_UID}
 
-# Exposing the Insights Proxy port
+# Exposing the Insights Proxy and Web server ports
 EXPOSE ${INSIGHTS_PROXY_SERVICE_PORT}
+EXPOSE ${INSIGHTS_WEB_SERVER_PORT}
 
 CMD ["/bin/bash", "/opt/app-root/entrypoint.sh"]

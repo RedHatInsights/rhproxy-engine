@@ -3,5 +3,7 @@
 /s
 # Certs directory mounted during development
 /certs
+# Download directory mounted during development
+/download
 # Development notes
 /notes
