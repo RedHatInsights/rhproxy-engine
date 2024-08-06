@@ -155,7 +155,6 @@ COPY app/entrypoint.sh ${APP_ROOT}/.
 # Copy the web server content:
 RUN mkdir -p ${APP_HOME}/img/
 COPY app/src/*.html ${APP_HOME}/.
-COPY app/src/*.ico ${APP_HOME}/.
 COPY app/src/img/* ${APP_HOME}/img/.
 
 # Let's make sure we have our certs and downloads directories created:
