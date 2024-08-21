@@ -15,12 +15,12 @@ http {
 
     # Let's tunnel only RedHat Insights upstream servers
     server {
-        listen        ${INSIGHTS_PROXY_SERVICE_PORT};
-        resolver      ${INSIGHTS_PROXY_DNS_SERVER} ipv6=off;
-        set $disabled ${INSIGHTS_PROXY_DISABLE};
+        listen        ${RHPROXY_SERVICE_PORT};
+        resolver      ${RHPROXY_DNS_SERVER} ipv6=off;
+        set $disabled ${RHPROXY_DISABLE};
 
         # Allowed Insights servers
-        server_name   ${INSIGHTS_PROXY_SERVER_NAMES};
+        server_name   ${RHPROXY_SERVER_NAMES};
 
         if ( $disabled = "1" ) {
             return  503;
@@ -43,9 +43,9 @@ http {
 
     # Let's deny all other requests
     server {
-        listen        ${INSIGHTS_PROXY_SERVICE_PORT};
-        resolver      ${INSIGHTS_PROXY_DNS_SERVER} ipv6=off;
-        set $disabled ${INSIGHTS_PROXY_DISABLE};
+        listen        ${RHPROXY_SERVICE_PORT};
+        resolver      ${RHPROXY_DNS_SERVER} ipv6=off;
+        set $disabled ${RHPROXY_DISABLE};
 
         server_name   ~.+;
 
@@ -76,9 +76,9 @@ http {
         include             /opt/app-root/nginx/etc/nginx/mime.types;
         default_type        application/octet-stream;
 
-        listen              ${INSIGHTS_WEB_SERVER_PORT} ssl http2;
-        listen              [::]:${INSIGHTS_WEB_SERVER_PORT} ssl http2;
-        set $disabled       ${INSIGHTS_WEB_SERVER_DISABLE};
+        listen              ${RHPROXY_WEB_SERVER_PORT} ssl http2;
+        listen              [::]:${RHPROXY_WEB_SERVER_PORT} ssl http2;
+        set $disabled       ${RHPROXY_WEB_SERVER_DISABLE};
 
         server_name         _;
         root                /opt/app-root/src;
@@ -87,8 +87,8 @@ http {
             return  503;
         }
 
-        ssl_certificate           "/opt/app-root/certs/insights-proxy.crt";
-        ssl_certificate_key       "/opt/app-root/certs/insights-proxy.key";
+        ssl_certificate           "/opt/app-root/certs/rhproxy.crt";
+        ssl_certificate_key       "/opt/app-root/certs/rhproxy.key";
         ssl_session_cache         shared:SSL:1m;
         ssl_session_timeout       10m;
         ssl_ciphers               PROFILE=SYSTEM;
