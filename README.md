@@ -1,5 +1,5 @@
-# insights-proxy
-Insights Proxy to RedHat's Hybrid Cloud Console
+# rhproxy-engine
+Insights Proxy NGINX Engine to RedHat's Hybrid Cloud Console
 
 
 ## Architecture
@@ -16,7 +16,7 @@ Building the Insigihts Proxy container is provided via the Makefile. This can be
 $ make build
 ```
 
-This builds the `localhost/insights-proxy:latest` container image.
+This builds the `localhost/rhproxy-engine:latest` container image.
 
 ## Insights Proxy Documentation
 

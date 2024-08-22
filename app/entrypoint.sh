@@ -1,29 +1,29 @@
 #!/bin/bash
 #
-# Insights-Proxy Entrypoint
+# rhproxy-engine Entrypoint
 
 set -e
 
-export INSIGHTS_PROXY_NAME="Insights-Proxy"
+export RHPROXY_NAME="Insights Proxy"
 
 # Create the self-signed certificates if not provided.
-${APP_ROOT}/etc/insights_init_certs.sh
+${APP_ROOT}/etc/rhproxy_init_certs.sh
 
 # Let's make sure the download folder is created
 mkdir -p ${APP_DOWNLOAD}
 
 CONFIG_ENV_VARS="\
-\$INSIGHTS_PROXY_SERVICE_PORT,\
-\$INSIGHTS_PROXY_SERVER_NAMES,\
-\$INSIGHTS_PROXY_DNS_SERVER,\
-\$INSIGHTS_PROXY_DISABLE,\
-\$INSIGHTS_WEB_SERVER_PORT,\
-\$INSIGHTS_WEB_SERVER_DISABLE\
+\$RHPROXY_SERVICE_PORT,\
+\$RHPROXY_SERVER_NAMES,\
+\$RHPROXY_DNS_SERVER,\
+\$RHPROXY_DISABLE,\
+\$RHPROXY_WEB_SERVER_PORT,\
+\$RHPROXY_WEB_SERVER_DISABLE\
 "
 
 envsubst "${CONFIG_ENV_VARS}" < ${NGINX_CONF_PATH}.template > ${NGINX_CONF_PATH}
 
-if [ "${INSIGHTS_PROXY_DEBUG_CONFIG}" = "1" ]; then
+if [ "${RHPROXY_DEBUG_CONFIG}" = "1" ]; then
     echo
     echo "----------------------------------------------------------------------"
     echo "Environment Variables:"
@@ -37,5 +37,5 @@ if [ "${INSIGHTS_PROXY_DEBUG_CONFIG}" = "1" ]; then
     echo
 fi
 
-echo "Starting ${INSIGHTS_PROXY_NAME} ..."
+echo "Starting ${RHPROXY_NAME} ..."
 ${NGINX_BASE}/usr/sbin/nginx -g "daemon off;"

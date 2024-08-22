@@ -1,4 +1,4 @@
-name: Build Insights-Proxy Container Images
+name: Build Insights Proxy (rhproxy-engine) Container Images
 
 on:
   push:
@@ -10,8 +10,8 @@ on:
 
 env:
   STABLE_TAG: ${{ github.event_name == 'push' && github.ref_name || format('pr-{0}', github.event.pull_request.number) }}
-  EXPIRATION_LABEL: ${{ github.event_name == 'push' && 'insights-proxy.source=github' || 'quay.expires-after=5d' }}
-  IMAGE_NAME: ${{ vars.IMAGE_NAME || 'abellott/insights-proxy' }}
+  EXPIRATION_LABEL: ${{ github.event_name == 'push' && 'rhproxy-engine.source=github' || 'quay.expires-after=5d' }}
+  IMAGE_NAME: ${{ vars.IMAGE_NAME || 'abellott/rhproxy-engine' }}
   REGISTRY: ${{ vars.REGISTRY || 'quay.io' }}
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
         shell: bash
         run: echo "RELEASE_TAG_AMD64=$([[ ${GITHUB_REF_NAME} =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && echo ${GITHUB_REF_NAME%.[0-9]*}-amd64 || echo)" >> "$GITHUB_ENV"
 
-      - name: Build Amd64 Insights-Proxy image
+      - name: Build Amd64 rhproxy-engine image
         id: build-image-amd64
         uses: redhat-actions/buildah-build@v2
         with:
@@ -41,7 +41,7 @@ jobs:
             ./Containerfile
           labels: |
             ${{ env.EXPIRATION_LABEL }}
-            insights-proxy.backend.git_sha=${{ github.sha }}
+            rhproxy-engine.backend.git_sha=${{ github.sha }}
 
       - name: Push Amd64 To quay.io
         id: push-image-amd64
@@ -74,7 +74,7 @@ jobs:
         shell: bash
         run: echo "RELEASE_TAG_ARM64=$([[ ${GITHUB_REF_NAME} =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && echo ${GITHUB_REF_NAME%.[0-9]*}-arm64 || echo)" >> "$GITHUB_ENV"
 
-      - name: Build Arm64 Insights-Proxy image
+      - name: Build Arm64 rhproxy-engine image
         id: build-image-arm64
         uses: redhat-actions/buildah-build@v2
         with:
@@ -85,7 +85,7 @@ jobs:
             ./Containerfile
           labels: |
             ${{ env.EXPIRATION_LABEL }}
-            insights-proxy.backend.git_sha=${{ github.sha }}
+            rhproxy-engine.backend.git_sha=${{ github.sha }}
 
       - name: Push Arm64 To quay.io
         id: push-image-arm64

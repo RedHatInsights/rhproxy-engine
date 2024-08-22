@@ -19,16 +19,16 @@ ENV NGINX_CONF_PATH=${NGINX_BASE}/etc/nginx/nginx.conf
 ENV NGINX_CONFIGURATION_PATH=${NGINX_BASE}/etc/nginx.d
 ENV NGINX_LOG_PATH=/var/log/nginx
 
-# Let's declare the Insights-Proxy configurable parameters
-ENV INSIGHTS_PROXY_DISABLE="0"
-ENV INSIGHTS_PROXY_DEBUG_CONFIG="0"
-ENV INSIGHTS_PROXY_SERVICE_PORT=3128
-ENV INSIGHTS_PROXY_SERVER_NAMES="*.redhat.com"
-ENV INSIGHTS_PROXY_DNS_SERVER="1.1.1.1"
+# Let's declare the rhproxy configurable parameters
+ENV RHPROXY_DISABLE="0"
+ENV RHPROXY_DEBUG_CONFIG="0"
+ENV RHPROXY_SERVICE_PORT=3128
+ENV RHPROXY_SERVER_NAMES="*.redhat.com"
+ENV RHPROXY_DNS_SERVER="1.1.1.1"
 
-# Let's enable the Insights-Proxy web server parmaeters
-ENV INSIGHTS_WEB_SERVER_DISABLE="0"
-ENV INSIGHTS_WEB_SERVER_PORT=8443
+# Let's enable the rhproxy web server parameters
+ENV RHPROXY_WEB_SERVER_DISABLE="0"
+ENV RHPROXY_WEB_SERVER_PORT=8443
 
 WORKDIR ${APP_HOME}
 
@@ -145,11 +145,11 @@ RUN groupadd --gid ${NGINX_GID} ${NGINX_GROUP} \
 # Let's copy the built nginx
 COPY --from=build ${NGINX_BASE} ${NGINX_BASE}
 
-# Add Insights-Proxy sources:
+# Add rhproxy sources:
 ADD app/etc/nginx/nginx.conf.template ${NGINX_CONF_PATH}.template
 ADD app/etc/*.sh ${APP_ROOT}/etc/
 
-# Copy and set the Insights-Proxy entrypoint:
+# Copy and set the rhproxy entrypoint:
 COPY app/entrypoint.sh ${APP_ROOT}/.
 
 # Copy the web server content:
@@ -168,8 +168,8 @@ RUN chown ${NGINX_USER}:root /run /run/lock
 RUN chmod 775 /run /run/lock
 USER ${NGINX_UID}
 
-# Exposing the Insights Proxy and Web server ports
-EXPOSE ${INSIGHTS_PROXY_SERVICE_PORT}
-EXPOSE ${INSIGHTS_WEB_SERVER_PORT}
+# Exposing the rhproxy and Web server ports
+EXPOSE ${RHPROXY_SERVICE_PORT}
+EXPOSE ${RHPROXY_WEB_SERVER_PORT}
 
 CMD ["/bin/bash", "/opt/app-root/entrypoint.sh"]
