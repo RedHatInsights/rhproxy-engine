@@ -5,6 +5,7 @@ ENV APP_ROOT=/opt/app-root
 ENV APP_HOME=${APP_ROOT}/src
 ENV APP_DOWNLOAD=${APP_ROOT}/download
 ENV APP_CERTS=${APP_ROOT}/certs
+ENV APP_RHPROXY_ENV=${APP_ROOT}/rhproxy-env
 
 # Let's define the nginx defaults
 ENV NGINX_VERSION="1.24.0"
@@ -15,16 +16,20 @@ ENV NGINX_GID="1001"
 ENV NGINX_BASE=${APP_ROOT}/nginx
 ENV NGINX_DEFAULT_CONF_PATH=${NGINX_BASE}/etc/nginx.default.d
 ENV NGINX_PERL_MODULE_PATH=${NGINX_BASE}/etc/perl
-ENV NGINX_CONF_PATH=${NGINX_BASE}/etc/nginx/nginx.conf
+ENV NGINX_CONF_DIR=${NGINX_BASE}/etc/nginx
+ENV NGINX_CONF_PATH=${NGINX_CONF_DIR}/nginx.conf
 ENV NGINX_CONFIGURATION_PATH=${NGINX_BASE}/etc/nginx.d
 ENV NGINX_LOG_PATH=/var/log/nginx
+
+# Let's define the rhproxy defaults
+ENV RHPROXY_CONF_DIR=${NGINX_CONF_DIR}/rhproxy
 
 # Let's declare the rhproxy configurable parameters
 ENV RHPROXY_DISABLE="0"
 ENV RHPROXY_DEBUG_CONFIG="0"
 ENV RHPROXY_SERVICE_PORT=3128
-ENV RHPROXY_SERVER_NAMES="*.redhat.com"
 ENV RHPROXY_DNS_SERVER="1.1.1.1"
+
 
 # Let's enable the rhproxy web server parameters
 ENV RHPROXY_WEB_SERVER_DISABLE="0"
@@ -146,7 +151,9 @@ RUN groupadd --gid ${NGINX_GID} ${NGINX_GROUP} \
 COPY --from=build ${NGINX_BASE} ${NGINX_BASE}
 
 # Add rhproxy sources:
+RUN mkdir -p ${RHPROXY_CONF_DIR}
 ADD app/etc/nginx/nginx.conf.template ${NGINX_CONF_PATH}.template
+ADD app/etc/nginx/*.server_names ${RHPROXY_CONF_DIR}
 ADD app/etc/*.sh ${APP_ROOT}/etc/
 
 # Copy and set the rhproxy entrypoint:
@@ -156,9 +163,10 @@ COPY app/entrypoint.sh ${APP_ROOT}/.
 RUN mkdir -p ${APP_HOME}/img/
 COPY app/src/*.html ${APP_HOME}/.
 
-# Let's make sure we have our certs and downloads directories created:
+# Let's make sure we have our certs, downloads and rhproxy-env directories are created:
 RUN mkdir -p ${APP_CERTS}
 RUN mkdir -p ${APP_DOWNLOAD}
+RUN mkdir -p ${APP_RHPROXY_ENV}
 
 # Let's have nginx own the app
 USER 0
