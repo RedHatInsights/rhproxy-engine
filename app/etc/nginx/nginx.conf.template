@@ -19,8 +19,11 @@ http {
         resolver      ${RHPROXY_DNS_SERVER} ipv6=off;
         set $disabled ${RHPROXY_DISABLE};
 
-        # Allowed Insights servers
-        server_name   ${RHPROXY_SERVER_NAMES};
+        # Supported RedHat Insights server names
+        include       rhproxy/redhat.server_names;
+
+        # Supported DNF mirror server names
+        include       rhproxy/mirror.server_names;
 
         if ( $disabled = "1" ) {
             return  503;
