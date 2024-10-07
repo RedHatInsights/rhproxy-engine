@@ -35,6 +35,10 @@ if [ -s "${APP_RHPROXY_ENV}/redhat.servers" ]; then
   server_to_server_names "${APP_RHPROXY_ENV}/redhat.servers" > "${RHPROXY_CONF_DIR}/redhat.server_names"
 fi
 
+if [ -s "${APP_RHPROXY_ENV}/epel.servers" ]; then
+  server_to_server_names "${APP_RHPROXY_ENV}/epel.servers" > "${RHPROXY_CONF_DIR}/epel.server_names"
+fi
+
 if [ -s "${APP_RHPROXY_ENV}/mirror.servers" ]; then
   server_to_server_names "${APP_RHPROXY_ENV}/mirror.servers" > "${RHPROXY_CONF_DIR}/mirror.server_names"
 fi
@@ -59,7 +63,12 @@ if [ "${RHPROXY_DEBUG_CONFIG}" = "1" ]; then
     cat "${RHPROXY_CONF_DIR}/redhat.server_names"
     echo
     echo "----------------------------------------------------------------------"
-    echo "DNF mirror server names: ${RHPROXY_CONF_DIR}/mirror.server_names"
+    echo "EPEL server names: ${RHPROXY_CONF_DIR}/epel.server_names"
+    echo
+    cat "${RHPROXY_CONF_DIR}/epel.server_names"
+    echo
+    echo "----------------------------------------------------------------------"
+    echo "Optional mirror server names: ${RHPROXY_CONF_DIR}/mirror.server_names"
     echo
     cat "${RHPROXY_CONF_DIR}/mirror.server_names"
     echo
