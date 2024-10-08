@@ -13,6 +13,9 @@ events {
 http {
     access_log /dev/stdout;
 
+    server_names_hash_max_size     4096;
+    server_names_hash_bucket_size   128;
+
     # Let's tunnel only RedHat Insights upstream servers
     server {
         listen        ${RHPROXY_SERVICE_PORT};
@@ -22,7 +25,10 @@ http {
         # Supported RedHat Insights server names
         include       rhproxy/redhat.server_names;
 
-        # Supported DNF mirror server names
+        # Supported EPEL server names
+        include       rhproxy/epel.server_names;
+
+        # Optional Mirror server names
         include       rhproxy/mirror.server_names;
 
         if ( $disabled = "1" ) {
