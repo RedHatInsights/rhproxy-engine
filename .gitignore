@@ -7,3 +7,5 @@
 /download
 # Development notes
 /notes
+# Downloaded tar files when updating sources
+/tar

@@ -7,8 +7,11 @@ ENV APP_DOWNLOAD=${APP_ROOT}/download
 ENV APP_CERTS=${APP_ROOT}/certs
 ENV APP_RHPROXY_ENV=${APP_ROOT}/rhproxy-env
 
-# Let's define the nginx defaults
+# Let's declare what is being built
 ENV NGINX_VERSION="1.24.0"
+ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
+
+# Let's define the nginx defaults
 ENV NGINX_USER="nginx"
 ENV NGINX_GROUP="nginx"
 ENV NGINX_UID="1001"
