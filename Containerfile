@@ -7,8 +7,11 @@ ENV APP_DOWNLOAD=${APP_ROOT}/download
 ENV APP_CERTS=${APP_ROOT}/certs
 ENV APP_RHPROXY_ENV=${APP_ROOT}/rhproxy-env
 
-# Let's define the nginx defaults
+# Let's declare what is being built
 ENV NGINX_VERSION="1.24.0"
+ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
+
+# Let's define the nginx defaults
 ENV NGINX_USER="nginx"
 ENV NGINX_GROUP="nginx"
 ENV NGINX_UID="1001"
@@ -59,23 +62,16 @@ RUN microdnf install -y\
       make \
       zlib-devel \
       pcre-devel \
-      tar \
-      wget \
-      git \
-      patch \
       openssl-devel \
       libxml2-devel \
       libxslt-devel \
       gd-devel \
       perl
 
-RUN mkdir -p /opt/app-root/src \
-      && cd /opt/app-root/src \
-      && git clone https://github.com/chobits/ngx_http_proxy_connect_module \
-      && wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
-      && tar xfz nginx-${NGINX_VERSION}.tar.gz \
-      && cd nginx-${NGINX_VERSION} \
-      && patch -p1 < ../ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_102101.patch \
+# Let's copy the patched NGINX source to build
+COPY src ${APP_HOME}
+
+RUN cd /opt/app-root/src/nginx-${NGINX_VERSION}/ \
       && CLIENT_BODY_TEMP_PATH=${NGINX_BASE}/var/lib/nginx/tmp/client_body \
       && HTTP_PROXY_TEMP_PATH=${NGINX_BASE}/var/lib/nginx/tmp/proxy \
       && HTTP_FASTCGI_TEMP_PATH=${NGINX_BASE}/var/lib/nginx/tmp/fastcgi \
@@ -127,7 +123,7 @@ RUN mkdir -p /opt/app-root/src \
 	    --with-stream_ssl_module \
 	    --with-stream_ssl_preread_module \
 	    --with-threads \
-	    --add-dynamic-module="/opt/app-root/src/ngx_http_proxy_connect_module" \
+	    --add-dynamic-module="/opt/app-root/src/ngx_http_proxy_connect_module-${PROXY_CONNECT_MODULE_VERSION}" \
       && mkdir -p ${CLIENT_BODY_TEMP_PATH} ${HTTP_PROXY_TEMP_PATH} ${HTTP_FASTCGI_TEMP_PATH} ${HTTP_UWSGI_TEMP_PATH} ${HTTP_SCGI_TEMP_PATH} \
       && make \
       && make install
