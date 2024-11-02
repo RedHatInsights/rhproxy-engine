@@ -1,13 +1,13 @@
 
 
-## Insights Proxy
+## Insights proxy
 
-The Insights Proxy channels all Insights communication from the customer's site and systems 
-to the Red Hat Insights servers. The Insights Proxy leverages NGINX to act as a forward proxy
+The Insights proxy channels all Insights communication from the customer's site and systems
+to the Red Hat Insights servers. The Insights proxy leverages NGINX to act as a forward proxy
 to console.redhat.com, sso.redhat.com as well as related subscription endpoints.
 
-The Insights Proxy does not terminate SSL requests but rather does SSL tunneling and passthrough to the
-back-end servers. With no SSL terminate, the Insights Proxy does not have access to request
+The Insights proxy does not terminate SSL requests but rather does SSL tunneling and passthrough to the
+back-end servers. With no SSL terminate, the Insights proxy does not have access to request
 details and relies on tunneling to forward all SSL/TLS protocol.
 
 
@@ -21,7 +21,7 @@ $ curl -vvv -kL \
   https://console.redhat.com/api/inventory/v1/hosts
 ```
 
-- Through the Proxy using the -x option:
+- Through the proxy using the -x option:
 
 ```
 $ curl -vvv -kL \
@@ -39,9 +39,9 @@ $ curl -vvv -kL \
   https://console.redhat.com/api/inventory/v1/hosts
 ```
 
-## Insights Proxy web server
+## Insights proxy web server
 
-The Insights Proxy also provides a web server at the default port of 8443 for serving files to clients.
+The Insights proxy also provides a web server at the default port of 8443 for serving files to clients.
 
 You can access the landing page by opening
 

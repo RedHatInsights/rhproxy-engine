@@ -1,5 +1,5 @@
 # rhproxy-engine
-Insights Proxy NGINX Engine to RedHat's Hybrid Cloud Console
+Insights proxy NGINX Engine to RedHat's Hybrid Cloud Console
 
 
 ## Architecture
@@ -10,7 +10,7 @@ This container builds version 1.24 of NGINX web server and includes the http pro
 
 This repo utilizes [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for differentiating the different types of commits.
 
-Building the Insigihts Proxy container is provided via the Makefile. This can be done as follows:
+Building the Insights proxy container is provided via the Makefile. This can be done as follows:
 
 ```
 $ make build
@@ -18,7 +18,7 @@ $ make build
 
 This builds the `localhost/rhproxy-engine:latest` container image.
 
-## Insights Proxy Documentation
+## Insights proxy Documentation
 
-- [Insights Proxy Notes](doc/notes.md)
+- [Insights proxy Notes](doc/notes.md)
 

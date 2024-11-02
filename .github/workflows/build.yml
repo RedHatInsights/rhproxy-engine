@@ -1,4 +1,4 @@
-name: Build Insights Proxy (rhproxy-engine) Container Images
+name: Build Insights proxy (rhproxy-engine) Container Images
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Clone repository
         id: clone-repository-amd64
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0  # fetches all commits/tags
 
@@ -60,7 +60,7 @@ jobs:
     steps:
       - name: Clone repository
         id: clone-repository-arm64
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0  # fetches all commits/tags
 
