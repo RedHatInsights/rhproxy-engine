@@ -30,7 +30,8 @@ update-sources:
 	echo "Extracting NGINX $(NGINX_VERSION) source ..."; \
 	tar xfz ../tar/nginx-$(NGINX_VERSION).tar.gz; \
 	echo "Extracting HTTP Proxy connect module $(PROXY_CONNECT_VERSION) source ..."; \
-	tar xfz ../tar/http-proxy-connect-module-$(PROXY_CONNECT_VERSION).tar.gz; \
+	tar xfz ../tar/http-proxy-connect-module-$(PROXY_CONNECT_VERSION).tar.gz \
+	  --exclude='.github'; \
 	cd nginx-$(NGINX_VERSION); \
 	patch -p1 < ../ngx_http_proxy_connect_module-$(PROXY_CONNECT_VERSION)/patch/proxy_connect_rewrite_102101.patch
 
