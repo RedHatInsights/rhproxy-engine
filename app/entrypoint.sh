@@ -4,7 +4,7 @@
 
 set -e
 
-export RHPROXY_NAME="Insights Proxy"
+export RHPROXY_NAME="Insights proxy"
 
 # Create the self-signed certificates if not provided.
 "${APP_ROOT}/etc/rhproxy_init_certs.sh"
