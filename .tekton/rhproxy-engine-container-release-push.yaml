@@ -23,7 +23,7 @@ spec:
   - name: output-image
     value: quay.io/redhat-user-workloads/insights-proxy-ipp-tenant/rhproxy-engine-container:{{revision}}
   - name: target_release
-    value: '$(target_branch.split("/").last())'
+    value: $(target_branch.split('/').last())
   - name: image-expires-after
     value: 5d
   - name: dockerfile
