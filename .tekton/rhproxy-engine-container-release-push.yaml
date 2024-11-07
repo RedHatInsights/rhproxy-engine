@@ -23,7 +23,9 @@ spec:
   - name: output-image
     value: quay.io/redhat-user-workloads/insights-proxy-ipp-tenant/rhproxy-engine-container:{{revision}}
   - name: target_release
-    value: $(target_branch.split('/').last())
+    description: The Target x.y.z Release of the Build
+    type: string
+    default: "latest-release"
   - name: image-expires-after
     value: 5d
   - name: dockerfile
@@ -143,6 +145,16 @@ spec:
         - name: kind
           value: task
         resolver: bundles
+    - name: init-env
+      taskSpec:
+        steps:
+          - name: target-release
+            image: ubuntu
+            script: |
+              #!/usr/bin/bash
+              echo -n "${{{target_branch}}#*refs/tags/}" > $(params.target_release)
+      runAfter:
+      - init
     - name: clone-repository
       params:
       - name: url
