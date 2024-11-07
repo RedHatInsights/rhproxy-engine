@@ -144,14 +144,18 @@ spec:
     - name: init-env
       taskSpec:
         results:
-          - name: target_release
-            type: string
+          - name: env
+            type: object
+            properties:
+              target_release:
+                type: string
         steps:
-          - name: write-target-release
+          - name: write-env
             image: ubuntu
             script: |
               #!/usr/bin/env bash
-              echo -n "{{target_branch}}" | cut -f3 -d/
+              TARGET_RELEASE=$(echo -n "{{target_branch}}" | cut -f3 -d/)
+              echo -n "{\"target_release\":\"${TARGET_RELEASE}\"}"
       runAfter:
       - init
     - name: clone-repository
@@ -431,7 +435,7 @@ spec:
       - name: IMAGE
         value: $(tasks.build-image-index.results.IMAGE_URL)
       - name: ADDITIONAL_TAGS
-        value: ["$(tasks.init-env.results.target_release)"]
+        value: ["$(tasks.init-env.results.env.target_release)"]
       runAfter:
       - build-image-index
       taskRef:
