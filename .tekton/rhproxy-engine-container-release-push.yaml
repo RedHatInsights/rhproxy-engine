@@ -6,7 +6,7 @@ metadata:
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch.matches("^refs\/tags\/[0-9]+\.[0-9]+\.[0-9]+$")
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch.startsWith("refs/tags/")
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: insights-proxy-container
@@ -146,14 +146,26 @@ spec:
         results:
         - name: target_release
           description: Target Release Tag build
+        - name: release_build
+          description: Boolean if the Target Release is an x.y.z Release Build
         steps:
         - name: init-env
           image: ubuntu
           script: |
             #!/usr/bin/env bash
+            #
+            # The following variables are required because on-cel-expression
+            # string matches do not currently support regular expression.
+            #
             TARGET_RELEASE=$(echo -n "{{target_branch}}" | cut -f3 -d/)
             echo "TARGET_RELEASE=${TARGET_RELEASE}"
             echo -n "${TARGET_RELEASE}" > "$(results.target_release.path)"
+            RELEASE_BUILD="false"
+            if [[ "${TARGET_RELEASE}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              RELEASE_BUILD="true"
+            fi
+            echo "RELEASE_BUILD=${RELEASE_BUILD}"
+            echo -n "${RELEASE_BUILD}" > "$(results.release_build.path)"
       runAfter:
       - init
     - name: clone-repository
@@ -168,6 +180,7 @@ spec:
         value: $(params.image-expires-after)
       runAfter:
       - init
+      - init-env
       taskRef:
         params:
         - name: name
@@ -179,6 +192,10 @@ spec:
         resolver: bundles
       when:
       - input: $(tasks.init.results.build)
+        operator: in
+        values:
+        - "true"
+      - input: $(tasks.init-env.results.release_build)
         operator: in
         values:
         - "true"
