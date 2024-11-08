@@ -144,18 +144,16 @@ spec:
     - name: init-env
       taskSpec:
         results:
-          - name: env
-            type: object
-            properties:
-              target_release:
-                type: string
+        - name: target_release
+          description: Target Release Tag build
         steps:
-          - name: env
-            image: ubuntu
-            script: |
-              #!/usr/bin/env bash
-              TARGET_RELEASE=$(echo -n "{{target_branch}}" | cut -f3 -d/)
-              echo -n "{\"target_release\":\"${TARGET_RELEASE}\"}"
+        - name: init-env
+          image: ubuntu
+          script: |
+            #!/usr/bin/env bash
+            TARGET_RELEASE=$(echo -n "{{target_branch}}" | cut -f3 -d/)
+            echo "TARGET_RELEASE=${TARGET_RELEASE}"
+            echo -n "${TARGET_RELEASE}" > "$(results.target_release.path)"
       runAfter:
       - init
     - name: clone-repository
@@ -435,7 +433,7 @@ spec:
       - name: IMAGE
         value: $(tasks.build-image-index.results.IMAGE_URL)
       - name: ADDITIONAL_TAGS
-        value: ["$(tasks.init-env.results.env.target_release)"]
+        value: ["$(tasks.init-env.results.target_release)"]
       runAfter:
       - build-image-index
       taskRef:
