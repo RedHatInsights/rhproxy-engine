@@ -22,8 +22,6 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/redhat-user-workloads/insights-proxy-ipp-tenant/rhproxy-engine-container:{{revision}}
-  - name: image-expires-after
-    value: 5d
   - name: dockerfile
     value: /Containerfile
   pipelineSpec:
