@@ -150,7 +150,7 @@ spec:
               target_release:
                 type: string
         steps:
-          - name: write-env
+          - name: env
             image: ubuntu
             script: |
               #!/usr/bin/env bash
