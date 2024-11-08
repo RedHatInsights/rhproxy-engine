@@ -145,9 +145,11 @@ spec:
       taskSpec:
         results:
         - name: target_release
-          description: Target Release Tag build
+          description: Target Patch Release Tag build (x.y.z)
         - name: release_build
-          description: Boolean if the Target Release is an x.y.z Release Build
+          description: Boolean if the Target Release is an x.y.z Patch Release Build
+        - name: minor_release
+          description: Minor Release Tag build (x.y)
         steps:
         - name: init-env
           image: ubuntu
@@ -157,15 +159,22 @@ spec:
             # The following variables are required because on-cel-expression
             # string matches do not currently support regular expression.
             #
+            # TARGET_RELEASE is the Patch Release (x.y.z)
+            # RELEASE_BUILD is a true|false Boolean if we have a Patch Release
+            # MINOR_RELEASE is the Minor Release (x.y)
             TARGET_RELEASE=$(echo -n "{{target_branch}}" | cut -f3 -d/)
             echo "TARGET_RELEASE=${TARGET_RELEASE}"
             echo -n "${TARGET_RELEASE}" > "$(results.target_release.path)"
             RELEASE_BUILD="false"
+            MINOR_RELEASE=""
             if [[ "${TARGET_RELEASE}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               RELEASE_BUILD="true"
+              MINOR_RELEASE="${TARGET_RELEASE%.[0-9]*}"
             fi
             echo "RELEASE_BUILD=${RELEASE_BUILD}"
             echo -n "${RELEASE_BUILD}" > "$(results.release_build.path)"
+            echo "MINOR_RELEASE=${MINOR_RELEASE}"
+            echo -n "${MINOR_RELEASE}" > "$(results.minor_release.path)"
       runAfter:
       - init
     - name: clone-repository
@@ -450,7 +459,7 @@ spec:
       - name: IMAGE
         value: $(tasks.build-image-index.results.IMAGE_URL)
       - name: ADDITIONAL_TAGS
-        value: ["$(tasks.init-env.results.target_release)"]
+        value: ["$(tasks.init-env.results.target_release)", "$(tasks.init-env.results.minor_release)"]
       runAfter:
       - build-image-index
       taskRef:
