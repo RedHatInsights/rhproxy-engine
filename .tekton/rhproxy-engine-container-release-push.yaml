@@ -516,19 +516,16 @@ spec:
         - "false"
     - name: push-images-to-public-repo
       taskSpec:
-        params:
-        - name: destination_quay_secret
-          value: insights-proxy-rhproxy-engine-bot-token
         env:
         - name: DEST_QUAY_USERNAME
           valueFrom:
             secretKeyRef:
-              name: $(params.destination_quay_secret)
+              name: "insights-proxy-rhproxy-engine-bot-token"
               key: username
         - name: DEST_QUAY_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: $(params.destination_quay_secret)
+              name: "insights-proxy-rhproxy-engine-bot-token"
               key: password
         steps:
         - name: push-images-to-public-repo
