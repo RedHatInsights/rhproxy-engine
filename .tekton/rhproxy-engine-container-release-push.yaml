@@ -523,12 +523,12 @@ spec:
           - name: DEST_QUAY_USERNAME
             valueFrom:
               secretKeyRef:
-                name: "insights-proxy-rhproxy-engine-bot-token"
+                name: insights-proxy-rhproxy-engine-bot-token
                 key: username
           - name: DEST_QUAY_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: "insights-proxy-rhproxy-engine-bot-token"
+                name: insights-proxy-rhproxy-engine-bot-token
                 key: password
           script: |
             #!/usr/bin/env bash
