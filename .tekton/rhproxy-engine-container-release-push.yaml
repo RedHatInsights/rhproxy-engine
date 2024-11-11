@@ -516,20 +516,25 @@ spec:
         - "false"
     - name: push-images-to-public-repo
       taskSpec:
-        env:
-        - name: DEST_QUAY_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: "insights-proxy-rhproxy-engine-bot-token"
-              key: username
-        - name: DEST_QUAY_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: "insights-proxy-rhproxy-engine-bot-token"
-              key: password
+        params:
+        - name: public_quay_push_secret
+          type: string
+          description: Image push secret for writing to the public quay.io repository
+          default: insights-proxy-rhproxy-engine-bot-token
         steps:
         - name: push-images-to-public-repo
           image: quay.io/konflux-ci/release-service-utils:e633d51cd41d73e4b3310face21bb980af7a662f
+          env:
+          - name: DEST_QUAY_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: $(params.public_quay_push_secret)
+                key: username
+          - name: DEST_QUAY_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: $(params.public_quay_push_secret)
+                key: password
           script: |
             #!/usr/bin/env bash
             #
@@ -541,25 +546,25 @@ spec:
             MINOR_RELEASE="$(tasks.init-env.results.minor_release)"
 
             echo "Pushing images to the public facing repository ..."
-            echo "Source Image:  ${SOURCE_IMAGE}"
-            echo "Target Repo:   ${TARGET_REPO}"
+            echo "Source Image:     ${SOURCE_IMAGE}"
+            echo "Target Repo:      ${TARGET_REPO}"
+            echo "Target Username:  ${DEST_QUAY_USERNAME}"
 
-            echo ""
-            echo "Target Credentials:"
-            echo "  Username: ${DEST_QUAY_USERNAME}"
-            echo "  Password: ${DEST_QUAY_PASSWORD}"
-            echo ""
             # Copy the Target x.y.z release
+            echo ""
+            echo "Pushing Release ${TARGET_RELEASE} Image ..."
             skopeo copy --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
               "docker://${SOURCE_IMAGE}" \
               "docker://${TARGET_REPO}:${TARGET_RELEASE}"
-            [[ $? -eq 0 ]] && echo "Pushed Image:  ${TARGET_REPO}:${TARGET_RELEASE}"
+            [[ $? -eq 0 ]] && echo "Pushed Image: ${TARGET_REPO}:${TARGET_RELEASE}"
 
             # Copy the Minor x.y release
+            echo ""
+            echo "Pushing Release ${MINOR_RELEASE} Image ..."
             skopeo copy --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
               "docker://${SOURCE_IMAGE}" \
               "docker://${TARGET_REPO}:${MINOR_RELEASE}"
-            [[ $? -eq 0 ]] && echo "Pushed Image:  ${TARGET_REPO}:${MINOR_RELEASE}"
+            [[ $? -eq 0 ]] && echo "Pushed Image: ${TARGET_REPO}:${MINOR_RELEASE}"
       runAfter:
       - apply-tags
       - clair-scan
