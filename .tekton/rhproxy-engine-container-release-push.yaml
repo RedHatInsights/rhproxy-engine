@@ -544,17 +544,22 @@ spec:
             echo "Source Image:  ${SOURCE_IMAGE}"
             echo "Target Repo:   ${TARGET_REPO}"
 
+            echo ""
+            echo "Target Credentials:"
+            echo "  Username: ${DEST_QUAY_USERNAME}"
+            echo "  Password: ${DEST_QUAY_PASSWORD}"
+            echo ""
             # Copy the Target x.y.z release
             skopeo copy --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
               "docker://${SOURCE_IMAGE}" \
               "docker://${TARGET_REPO}:${TARGET_RELEASE}"
-            echo "Pushed Image:  ${TARGET_REPO}:${TARGET_RELEASE}"
+            [[ $? -eq 0 ]] && echo "Pushed Image:  ${TARGET_REPO}:${TARGET_RELEASE}"
 
             # Copy the Minor x.y release
             skopeo copy --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
               "docker://${SOURCE_IMAGE}" \
               "docker://${TARGET_REPO}:${MINOR_RELEASE}"
-            echo "Pushed Image:  ${TARGET_REPO}:${MINOR_RELEASE}"
+            [[ $? -eq 0 ]] && echo "Pushed Image:  ${TARGET_REPO}:${MINOR_RELEASE}"
       runAfter:
       - apply-tags
       - clair-scan
