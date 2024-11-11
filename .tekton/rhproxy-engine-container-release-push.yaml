@@ -548,7 +548,7 @@ spec:
             # Copy the Target x.y.z release
             echo ""
             echo "Pushing Release ${TARGET_RELEASE} Image ..."
-            skopeo copy --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
+            skopeo copy --all --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
               "docker://${SOURCE_IMAGE}" \
               "docker://${TARGET_REPO}:${TARGET_RELEASE}"
             [[ $? -eq 0 ]] && echo "Pushed Image: ${TARGET_REPO}:${TARGET_RELEASE}"
@@ -556,7 +556,7 @@ spec:
             # Copy the Minor x.y release
             echo ""
             echo "Pushing Release ${MINOR_RELEASE} Image ..."
-            skopeo copy --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
+            skopeo copy --all --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
               "docker://${SOURCE_IMAGE}" \
               "docker://${TARGET_REPO}:${MINOR_RELEASE}"
             [[ $? -eq 0 ]] && echo "Pushed Image: ${TARGET_REPO}:${MINOR_RELEASE}"
