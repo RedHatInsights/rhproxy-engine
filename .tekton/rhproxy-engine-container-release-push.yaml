@@ -516,11 +516,6 @@ spec:
         - "false"
     - name: push-images-to-public-repo
       taskSpec:
-        params:
-        - name: public_quay_push_secret
-          type: string
-          description: Image push secret for writing to the public quay.io repository
-          default: "insights-proxy-rhproxy-engine-bot-token"
         steps:
         - name: push-images-to-public-repo
           image: quay.io/konflux-ci/release-service-utils:e633d51cd41d73e4b3310face21bb980af7a662f
@@ -528,12 +523,12 @@ spec:
           - name: DEST_QUAY_USERNAME
             valueFrom:
               secretKeyRef:
-                name: $(params.public_quay_push_secret)
+                name: "insights-proxy-rhproxy-engine-bot-token"
                 key: username
           - name: DEST_QUAY_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: $(params.public_quay_push_secret)
+                name: "insights-proxy-rhproxy-engine-bot-token"
                 key: password
           script: |
             #!/usr/bin/env bash
