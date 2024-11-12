@@ -6,6 +6,7 @@ ENV APP_HOME=${APP_ROOT}/src
 ENV APP_DOWNLOAD=${APP_ROOT}/download
 ENV APP_CERTS=${APP_ROOT}/certs
 ENV APP_RHPROXY_ENV=${APP_ROOT}/rhproxy-env
+ENV APP_LICENSES=/licenses
 
 # Let's declare what is being built
 ENV NGINX_VERSION="1.24.0"
@@ -163,6 +164,12 @@ COPY app/src/*.html ${APP_HOME}/.
 RUN mkdir -p ${APP_CERTS}
 RUN mkdir -p ${APP_DOWNLOAD}
 RUN mkdir -p ${APP_RHPROXY_ENV}
+
+# Let's stash our licenses in the proper directory
+RUN mkdir -p ${APP_LICENSES}/nginx
+RUN mkdir -p ${APP_LICENSES}/ngx_http_proxy_connect_module
+COPY --from=build ${APP_ROOT}/src/nginx-${NGINX_VERSION}/LICENSE ${APP_LICENSES}/nginx/.
+COPY --from=build ${APP_ROOT}/src/ngx_http_proxy_connect_module-${PROXY_CONNECT_MODULE_VERSION}/LICENSE ${APP_LICENSES}/ngx_http_proxy_connect_module/.
 
 # Let's have nginx own the app
 USER 0
