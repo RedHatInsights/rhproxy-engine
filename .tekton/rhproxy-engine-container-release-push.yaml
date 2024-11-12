@@ -516,19 +516,23 @@ spec:
         - "false"
     - name: push-images-to-public-repo
       taskSpec:
+        params:
+        - name: public_repo_push_secret
+          default: "insights-proxy-rhproxy-engine-bot-token"
+          type: string
         steps:
         - name: push-images-to-public-repo
           image: quay.io/konflux-ci/release-service-utils:e633d51cd41d73e4b3310face21bb980af7a662f
           env:
-          - name: DEST_QUAY_USERNAME
+          - name: DEST_REPO_USERNAME
             valueFrom:
               secretKeyRef:
-                name: insights-proxy-rhproxy-engine-bot-token
+                name: $(params.public_repo_push_secret)
                 key: username
-          - name: DEST_QUAY_PASSWORD
+          - name: DEST_REPO_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: insights-proxy-rhproxy-engine-bot-token
+                name: $(params.public_repo_push_secret)
                 key: password
           script: |
             #!/usr/bin/env bash
@@ -543,12 +547,12 @@ spec:
             echo "Pushing images to the public facing repository ..."
             echo "Source Image:     ${SOURCE_IMAGE}"
             echo "Target Repo:      ${TARGET_REPO}"
-            echo "Target Username:  ${DEST_QUAY_USERNAME}"
+            echo "Target Username:  ${DEST_REPO_USERNAME}"
 
             # Copy the Target x.y.z release
             echo ""
             echo "Pushing Release ${TARGET_RELEASE} Image ..."
-            skopeo copy --all --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
+            skopeo copy --all --dest-username "${DEST_REPO_USERNAME}" --dest-password "${DEST_REPO_PASSWORD}" \
               "docker://${SOURCE_IMAGE}" \
               "docker://${TARGET_REPO}:${TARGET_RELEASE}"
             [[ $? -eq 0 ]] && echo "Pushed Image: ${TARGET_REPO}:${TARGET_RELEASE}"
@@ -556,7 +560,7 @@ spec:
             # Copy the Minor x.y release
             echo ""
             echo "Pushing Release ${MINOR_RELEASE} Image ..."
-            skopeo copy --all --dest-username "${DEST_QUAY_USERNAME}" --dest-password "${DEST_QUAY_PASSWORD}" \
+            skopeo copy --all --dest-username "${DEST_REPO_USERNAME}" --dest-password "${DEST_REPO_PASSWORD}" \
               "docker://${SOURCE_IMAGE}" \
               "docker://${TARGET_REPO}:${MINOR_RELEASE}"
             [[ $? -eq 0 ]] && echo "Pushed Image: ${TARGET_REPO}:${MINOR_RELEASE}"
