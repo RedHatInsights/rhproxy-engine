@@ -70,6 +70,7 @@ RUN microdnf install -y\
       perl
 
 # Let's copy the patched NGINX source to build
+COPY LICENSE ${APP_ROOT}/.
 COPY src ${APP_HOME}
 
 RUN cd /opt/app-root/src/nginx-${NGINX_VERSION}/ \
@@ -168,6 +169,7 @@ RUN mkdir -p ${APP_RHPROXY_ENV}
 # Let's stash our licenses in the proper directory
 RUN mkdir -p ${APP_LICENSES}/nginx
 RUN mkdir -p ${APP_LICENSES}/ngx_http_proxy_connect_module
+COPY --from=build ${APP_ROOT}/LICENSE ${APP_LICENSES}/.
 COPY --from=build ${APP_ROOT}/src/nginx-${NGINX_VERSION}/LICENSE ${APP_LICENSES}/nginx/.
 COPY --from=build ${APP_ROOT}/src/ngx_http_proxy_connect_module-${PROXY_CONNECT_MODULE_VERSION}/LICENSE ${APP_LICENSES}/ngx_http_proxy_connect_module/.
 
