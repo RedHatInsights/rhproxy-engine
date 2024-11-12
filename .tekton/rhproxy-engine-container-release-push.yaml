@@ -568,7 +568,6 @@ spec:
       - apply-tags
       - clair-scan
       - sast-snyk-check
-      - clamav-scan
       - rpms-signature-scan
     workspaces:
     - name: git-auth
