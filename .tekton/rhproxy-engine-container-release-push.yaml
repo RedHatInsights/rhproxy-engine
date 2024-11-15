@@ -567,6 +567,7 @@ spec:
       runAfter:
       - apply-tags
       - clair-scan
+      - clamav-scan
       - sast-snyk-check
       - rpms-signature-scan
     workspaces:
