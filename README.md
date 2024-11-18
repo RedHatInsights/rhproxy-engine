@@ -18,11 +18,12 @@ This builds the `localhost/rhproxy-engine:latest` container image.
 
 ## Insights proxy Documentation
 
-- [Insights proxy Notes](doc/notes.md)
+- [Insights proxy Notes](doc/NOTES.md)
 
 ## Build Repository
 
 Release builds of the Insights proxy container are located in the following repository:
 
 - [quay.io/insights_proxy/rhproxy-engine](https://quay.io/insights_proxy/rhproxy-engine?tab=tags)
+
 
