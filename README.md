@@ -18,7 +18,7 @@ This builds the `localhost/rhproxy-engine:latest` container image.
 
 ## Insights proxy Documentation
 
-- [Insights proxy Notes](doc/notes.md)
+- [Insights proxy Notes](doc/NOTES.md)
 
 ## Build Repository
 
