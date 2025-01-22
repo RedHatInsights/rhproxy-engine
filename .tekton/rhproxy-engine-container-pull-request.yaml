@@ -377,6 +377,8 @@ spec:
         value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
       - name: CACHI2_ARTIFACT
         value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
+      - name: ARGS
+        value: "--project-name=core-platforms-red-hat-insights-insights-proxy --report --org=d47031bc-8fcc-4fdc-8744-0631955d3244"
       runAfter:
       - build-image-index
       taskRef:
