@@ -181,6 +181,14 @@ RUN chown ${NGINX_USER}:root /run /run/lock
 RUN chmod 775 /run /run/lock
 USER ${NGINX_UID}
 
+# Define labels for the Insights proxy container
+LABEL maintainer="Red Hat, Inc." \
+      vendor="Red Hat, Inc."
+LABEL url="https://www.redhat.com"
+LABEL name="rhproxy-engine" \
+      version="1.5.0" \
+      distribution-scope="public"
+
 # Exposing the rhproxy and Web server ports
 EXPOSE ${RHPROXY_SERVICE_PORT}
 EXPOSE ${RHPROXY_WEB_SERVER_PORT}
