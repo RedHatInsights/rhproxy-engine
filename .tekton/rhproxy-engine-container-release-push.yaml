@@ -24,6 +24,8 @@ spec:
     value: quay.io/redhat-user-workloads/insights-proxy-ipp-tenant/rhproxy-engine-container:{{revision}}
   - name: dockerfile
     value: /Containerfile
+  - name: build-source-image
+    value: "true"
   pipelineSpec:
     description: |
       This pipeline is ideal for building multi-arch container images from a Containerfile while maintaining trust after pipeline customization.
