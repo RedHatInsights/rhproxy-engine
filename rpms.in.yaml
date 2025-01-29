@@ -1,0 +1,23 @@
+packages:
+  - gettext
+  - zlib
+  - libaio
+  - openssl
+  - shadow-utils
+  - procps-ng
+  - less
+  - util-linux
+  - vim
+  - gcc
+  - gcc-c++
+  - kernel-headers
+  - make
+  - zlib-devel
+  - pcre-devel
+  - openssl-devel
+  - libxml2-devel
+  - libxslt-devel
+  - gd-devel
+  - perl
+contentOrigin:
+  repofiles: ["./ubi.repo"]
