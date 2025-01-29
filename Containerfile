@@ -187,7 +187,14 @@ LABEL maintainer="Red Hat, Inc." \
 LABEL url="https://www.redhat.com"
 LABEL name="rhproxy-engine" \
       version="1.5.0" \
+      description="The Insights proxy provides a secure and efficient solution for connecting your systems with Internet access constraints to Insights. This image is maintained by Red Hat." \
+      summary="Provides the Insights proxy container image for rhproxy." \
       distribution-scope="public"
+LABEL com.redhat.component="rhproxy-engine" \
+      io.k8s.display-name="Red Hat Insights proxy container" \
+      io.k8s.description="The Insights proxy provides a secure and efficient solution for connecting your systems with Internet access constraints to Insights. This image is maintained by Red Hat." \
+      io.openshift.tags="insights proxy"
+
 
 # Exposing the rhproxy and Web server ports
 EXPOSE ${RHPROXY_SERVICE_PORT}
