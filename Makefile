@@ -1,4 +1,7 @@
 
+UBI_IMAGE = "registry.access.redhat.com/ubi9"
+UBI_MINIMAL_IMAGE = $(shell grep "^FROM .*ubi9-minimal.* as base" Containerfile | awk '{print $$2;}')
+RPM_LOCKFILE_IMAGE = "localhost/rpm-lockfile-update"
 NGINX_VERSION = $(shell grep "ENV NGINX_VERSION=" Containerfile | sed -n 's/.*="\(.*\)"/\1/p')
 PROXY_CONNECT_VERSION = $(shell grep "ENV PROXY_CONNECT_MODULE_VERSION=" Containerfile | sed -n 's/.*="\(.*\)"/\1/p')
 RHPROXY_CONTAINER_TAG ?= rhproxy-engine
@@ -7,15 +10,25 @@ all:	help
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of:"
-	@echo "  help            show this help message"
-	@echo "  build           build the container image for the $(RHPROXY_CONTAINER_TAG)"
-	@echo "  update-sources  update the sources built in $(RHPROXY_CONTAINER_TAG) with:"
-	@echo "                  - NGINX v$(NGINX_VERSION)"
-	@echo "                  - HTTP Proxy Connect Module v$(PROXY_CONNECT_VERSION)"
+	@echo "  help              show this help message"
+	@echo "  build             build the container image for the $(RHPROXY_CONTAINER_TAG)"
+	@echo "  update-lockfiles  Update ubi.repo and rpms.lock files based on the container base image"
+	@echo "  update-sources    update the sources built in $(RHPROXY_CONTAINER_TAG) with:"
+	@echo "                    - NGINX v$(NGINX_VERSION)"
+	@echo "                    - HTTP Proxy Connect Module v$(PROXY_CONNECT_VERSION)"
 
 build:
 	podman build \
 		-t $(RHPROXY_CONTAINER_TAG) .
+
+update-lockfiles:
+	podman pull $(UBI_MINIMAL_IMAGE)
+	podman run -it $(UBI_MINIMAL_IMAGE) cat /etc/yum.repos.d/ubi.repo | sed 's/\r$$//' > ubi.repo
+	podman pull $(UBI_IMAGE)
+	curl https://raw.githubusercontent.com/konflux-ci/rpm-lockfile-prototype/refs/heads/main/Containerfile | \
+	  podman build -t $(RPM_LOCKFILE_IMAGE) --build-arg BASE_IMAGE=$(UBI_IMAGE) -
+	podman run -w /workdir --rm -v ${PWD}:/workdir:Z $(RPM_LOCKFILE_IMAGE):latest \
+	  --image $(UBI_MINIMAL_IMAGE) --outfile=/workdir/rpms.lock.yaml rpms.in.yaml
 
 update-sources:
 	@mkdir -p src tar; \
