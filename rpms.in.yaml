@@ -19,5 +19,10 @@ packages:
   - libxslt-devel
   - gd-devel
   - perl
+
 contentOrigin:
   repofiles: ["./ubi.repo"]
+
+arches:
+  - aarch64
+  - x86_64
