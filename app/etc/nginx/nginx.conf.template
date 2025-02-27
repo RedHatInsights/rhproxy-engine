@@ -40,12 +40,14 @@ http {
         proxy_connect_allow             443;
         proxy_connect_connect_timeout   10s;
         proxy_connect_data_timeout      60s;
+        proxy_set_header x-rh-insights-proxy-hostname $hostname;
         proxy_next_upstream error timeout http_502;
 
         # Forward proxy for non-CONNECT requests
         location / {
             proxy_pass 			            http://$host;
             proxy_set_header Host       $host;
+            proxy_set_header x-rh-insights-proxy-hostname $hostname;
             proxy_connect_timeout       10s;
         }
     }
