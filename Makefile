@@ -1,6 +1,7 @@
 
-UBI_IMAGE = "registry.access.redhat.com/ubi9"
-UBI_MINIMAL_IMAGE = $(shell grep "^FROM .*ubi9-minimal.* as base" Containerfile | awk '{print $$2;}')
+UBI_VERSION = 9
+UBI_IMAGE = "registry.access.redhat.com/ubi$(UBI_VERSION)"
+UBI_MINIMAL_IMAGE = $(shell grep "^FROM .*ubi$(UBI_VERSION)-minimal.* as base" Containerfile | awk '{print $$2;}')
 RPM_LOCKFILE_IMAGE = "localhost/rpm-lockfile-update"
 NGINX_VERSION = $(shell grep "ENV NGINX_VERSION=" Containerfile | sed -n 's/.*="\(.*\)"/\1/p')
 PROXY_CONNECT_VERSION = $(shell grep "ENV PROXY_CONNECT_MODULE_VERSION=" Containerfile | sed -n 's/.*="\(.*\)"/\1/p')
@@ -23,7 +24,10 @@ build:
 
 update-lockfiles:
 	podman pull $(UBI_MINIMAL_IMAGE)
-	podman run -it $(UBI_MINIMAL_IMAGE) cat /etc/yum.repos.d/ubi.repo | sed 's/\r$$//' > ubi.repo
+	podman run -it $(UBI_MINIMAL_IMAGE) cat /etc/yum.repos.d/ubi.repo | \
+		sed 's/ubi-$(UBI_VERSION)-codeready-builder-\([[:alnum:]-]*rpms\)/codeready-builder-for-ubi-$(UBI_VERSION)-$$basearch-\1/g' | \
+		sed 's/ubi-$(UBI_VERSION)-\([[:alnum:]-]*rpms\)/ubi-$(UBI_VERSION)-for-$$basearch-\1/g' | \
+		sed 's/\r$$//' > ubi.repo
 	podman pull $(UBI_IMAGE)
 	curl https://raw.githubusercontent.com/konflux-ci/rpm-lockfile-prototype/refs/heads/main/Containerfile | \
 	  podman build -t $(RPM_LOCKFILE_IMAGE) --build-arg BASE_IMAGE=$(UBI_IMAGE) -
