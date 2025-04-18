@@ -467,9 +467,6 @@ spec:
         operator: in
         values:
         - "false"
-      - name: apply-tags
-        params:
-        - name: IMAGE
     - name: apply-tags
       params:
       - name: IMAGE
