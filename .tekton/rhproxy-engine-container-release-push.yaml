@@ -628,6 +628,8 @@ spec:
       - clair-scan
       - clamav-scan
       - sast-snyk-check
+      - sast-shell-check
+      - sast-unicode-check
       - rpms-signature-scan
     workspaces:
     - name: git-auth
