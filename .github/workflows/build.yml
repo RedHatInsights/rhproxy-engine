@@ -11,7 +11,7 @@ on:
 env:
   STABLE_TAG: ${{ github.event_name == 'push' && github.ref_name || format('pr-{0}', github.event.pull_request.number) }}
   EXPIRATION_LABEL: ${{ github.event_name == 'push' && 'rhproxy-engine.source=github' || 'quay.expires-after=5d' }}
-  IMAGE_NAME: ${{ vars.IMAGE_NAME || 'abellott/rhproxy-engine' }}
+  IMAGE_NAME: ${{ vars.IMAGE_NAME || 'insights_proxy/rhproxy-engine-container' }}
   REGISTRY: ${{ vars.REGISTRY || 'quay.io' }}
 
 jobs:
