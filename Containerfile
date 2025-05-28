@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.5-1742914212 as base
+FROM registry.access.redhat.com/ubi9-minimal:9.6-1747218906 as base
 
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
@@ -186,7 +186,7 @@ LABEL maintainer="Red Hat, Inc." \
       vendor="Red Hat, Inc."
 LABEL url="https://www.redhat.com"
 LABEL name="rhproxy-engine" \
-      version="1.5.2" \
+      version="1.5.3" \
       description="The Insights proxy provides a secure and efficient solution for connecting your systems with Internet access constraints to Insights. This image is maintained by Red Hat." \
       summary="Provides the Insights proxy container image for rhproxy." \
       distribution-scope="public"
