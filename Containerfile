@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.6-1754456323 as base
+FROM registry.access.redhat.com/ubi9-minimal:9.6-1755695350 as base
 
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
