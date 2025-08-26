@@ -193,13 +193,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-570.32.1.el9_6.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-570.37.1.el9_6.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 3659405
-    checksum: sha256:71476f885d8121ed79180cfff11da7e69901da4d8963f369ee877a93fc9ef8f9
+    size: 3668185
+    checksum: sha256:e89600d4c00fc468251dfa7fb9aee3249b6c29e61224148422f9914ac9f8bf8c
     name: kernel-headers
-    evr: 5.14.0-570.32.1.el9_6
-    sourcerpm: kernel-5.14.0-570.32.1.el9_6.src.rpm
+    evr: 5.14.0-570.37.1.el9_6
+    sourcerpm: kernel-5.14.0-570.37.1.el9_6.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-srpm-macros-1.0-13.el9.noarch.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 17792
@@ -459,13 +459,13 @@ arches:
     name: libxcrypt-devel
     evr: 4.4.18-3.el9
     sourcerpm: libxcrypt-4.4.18-3.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxml2-devel-2.9.13-11.el9_6.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxml2-devel-2.9.13-12.el9_6.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 920144
-    checksum: sha256:eebf3c6a249fef7a5d7e3e344a6f29be89df20ec900dfe1343e057e381354b8e
+    size: 919957
+    checksum: sha256:f5ed1fc04d6a2a0cc1f242b7e1770797deccd37278efa81673cca4814644531c
     name: libxml2-devel
-    evr: 2.9.13-11.el9_6
-    sourcerpm: libxml2-2.9.13-11.el9_6.src.rpm
+    evr: 2.9.13-12.el9_6
+    sourcerpm: libxml2-2.9.13-12.el9_6.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxslt-1.1.34-13.el9_6.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 248330
@@ -2885,13 +2885,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-570.32.1.el9_6.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-570.37.1.el9_6.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 3697753
-    checksum: sha256:13ee355b274f7e716e31827aa999087692342195b1bd8f10960cf46103b9d18b
+    size: 3706529
+    checksum: sha256:cdf3b0f400321b66101af9ed94a830a1b4f5e82c8c47d6c5342b4f81c605b245
     name: kernel-headers
-    evr: 5.14.0-570.32.1.el9_6
-    sourcerpm: kernel-5.14.0-570.32.1.el9_6.src.rpm
+    evr: 5.14.0-570.37.1.el9_6
+    sourcerpm: kernel-5.14.0-570.37.1.el9_6.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-srpm-macros-1.0-13.el9.noarch.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 17792
@@ -3144,13 +3144,13 @@ arches:
     name: libxcrypt-devel
     evr: 4.4.18-3.el9
     sourcerpm: libxcrypt-4.4.18-3.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxml2-devel-2.9.13-11.el9_6.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxml2-devel-2.9.13-12.el9_6.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 919917
-    checksum: sha256:883782ca5fce41deb836114667782cc01598e7023050b9ae12d6ed3ffb2247e5
+    size: 919949
+    checksum: sha256:3177fe8423fd9d066b922087f6acf0876e22e2cb91c009cd9cceec1d78f1f377
     name: libxml2-devel
-    evr: 2.9.13-11.el9_6
-    sourcerpm: libxml2-2.9.13-11.el9_6.src.rpm
+    evr: 2.9.13-12.el9_6
+    sourcerpm: libxml2-2.9.13-12.el9_6.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxslt-1.1.34-13.el9_6.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 250837
