@@ -14,16 +14,23 @@ export PEM_FILE="${APP_CERTS}/${CERT_PREFIX}.pem"
 
 if [ -f "${KEY_FILE}" ] && [ -f "${CRT_FILE}" ]; then
     echo "Using ${RHPROXY_NAME} certificates ..."
-    openssl rsa -in "${KEY_FILE}" -check
-    openssl x509 -in "${CRT_FILE}" -text -noout
+    echo ""
+    echo "${RHPROXY_NAME} Key file: ${KEY_FILE}"
+    openssl rsa -in "${KEY_FILE}" -check -noout
+    echo ""
+    echo "${RHPROXY_NAME} Cert file: ${CRT_FILE}"
+    openssl x509 -in "${CRT_FILE}" -text
 elif [ ! -f "${KEY_FILE}" ] && [ ! -f "${CRT_FILE}" ]; then
     echo "Creating ${RHPROXY_NAME} certificates ..."
+    echo ""
     openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
         -keyout "${KEY_FILE}" \
         -out "${CRT_FILE}" \
         -subj "/C=US/ST=Raleigh/L=Raleigh/O=IT/OU=IT Department/CN=rhproxy" \
         -addext "subjectAltName=DNS:localhost"
     chmod 600 "${KEY_FILE}"
+    echo "${RHPROXY_NAME} Key file: ${KEY_FILE}"
+    echo "${RHPROXY_NAME} Cert file: ${CRT_FILE}"
 else
     echo "Either the ${RHPROXY_NAME} ${CERT_PREFIX}.key or ${CERT_PREFIX}.crt certificate is missing in ${APP_CERTS}."
     exit 1
