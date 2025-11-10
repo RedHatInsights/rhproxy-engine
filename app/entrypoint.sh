@@ -6,6 +6,9 @@ set -e
 
 export RHPROXY_NAME="Insights proxy"
 
+echo "Starting the ${RHPROXY_NAME} version ${RHPROXY_ENGINE_VERSION} ..."
+echo ""
+
 # Create the self-signed certificates if not provided.
 "${APP_ROOT}/etc/rhproxy_init_certs.sh"
 
