@@ -27,7 +27,8 @@ elif [ ! -f "${KEY_FILE}" ] && [ ! -f "${CRT_FILE}" ]; then
         -keyout "${KEY_FILE}" \
         -out "${CRT_FILE}" \
         -subj "/C=US/ST=Raleigh/L=Raleigh/O=IT/OU=IT Department/CN=rhproxy" \
-        -addext "subjectAltName=DNS:localhost"
+        -addext "subjectAltName=DNS:localhost" \
+        -quiet
     chmod 600 "${KEY_FILE}"
     echo "${RHPROXY_NAME} Key file: ${KEY_FILE}"
     echo "${RHPROXY_NAME} Cert file: ${CRT_FILE}"
