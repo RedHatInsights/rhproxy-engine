@@ -6,7 +6,7 @@ set -e
 
 export RHPROXY_NAME="Insights proxy"
 
-echo "Starting the ${RHPROXY_NAME} version ${RHPROXY_ENGINE_VERSION} ..."
+echo "Initializing ${RHPROXY_NAME} version ${RHPROXY_ENGINE_VERSION} ..."
 echo ""
 
 # Create the self-signed certificates if not provided.
@@ -77,5 +77,5 @@ if [ "${RHPROXY_DEBUG_CONFIG}" = "1" ]; then
     echo
 fi
 
-echo "Starting ${RHPROXY_NAME} ..."
+echo "Starting ${RHPROXY_NAME} version ${RHPROXY_ENGINE_VERSION} ..."
 "${NGINX_BASE}/usr/sbin/nginx" -g "daemon off;"
