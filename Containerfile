@@ -1,4 +1,9 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.6-1758184547 as base
+FROM registry.access.redhat.com/ubi9-minimal:9.6-1760515502 as base
+
+# Let's declare what is being built
+ENV RHPROXY_ENGINE_VERSION="1.5.8"
+ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
+ENV NGINX_VERSION="1.24.0"
 
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
@@ -7,10 +12,6 @@ ENV APP_DOWNLOAD=${APP_ROOT}/download
 ENV APP_CERTS=${APP_ROOT}/certs
 ENV APP_RHPROXY_ENV=${APP_ROOT}/rhproxy-env
 ENV APP_LICENSES=/licenses
-
-# Let's declare what is being built
-ENV NGINX_VERSION="1.24.0"
-ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
 
 # Let's define the nginx defaults
 ENV NGINX_USER="nginx"
@@ -186,7 +187,7 @@ LABEL maintainer="Red Hat, Inc." \
       vendor="Red Hat, Inc."
 LABEL url="https://www.redhat.com"
 LABEL name="rhproxy-engine" \
-      version="1.5.7" \
+      version="$RHPROXY_ENGINE_VERSION" \
       description="The Insights proxy provides a secure and efficient solution for connecting your systems with Internet access constraints to Insights. This image is maintained by Red Hat." \
       summary="Provides the Insights proxy container image for rhproxy." \
       distribution-scope="public"
