@@ -1,7 +1,8 @@
 FROM registry.access.redhat.com/ubi9-minimal:9.7-1764794109 as base
 
 # Let's declare what is being built
-ENV RHPROXY_ENGINE_VERSION="1.5.9"
+ENV RHPROXY_PRODUCT_VERSION="1.5"
+ENV RHPROXY_ENGINE_VERSION="${RHPROXY_PRODUCT_VERSION}.9"
 ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
 ENV NGINX_VERSION="1.24.0"
 
@@ -186,8 +187,9 @@ USER ${NGINX_UID}
 LABEL maintainer="Red Hat, Inc." \
       vendor="Red Hat, Inc."
 LABEL url="https://www.redhat.com"
-LABEL name="rhproxy-engine" \
-      version="$RHPROXY_ENGINE_VERSION" \
+LABEL name="insights-proxy/insights-proxy-container-rhel9" \
+      version="${RHPROXY_ENGINE_VERSION}" \
+      cpe="cpe:/a:redhat:insights_proxy:${RHPROXY_PRODUCT_VERSION}::el9" \
       description="The Insights proxy provides a secure and efficient solution for connecting your systems with Internet access constraints to Insights. This image is maintained by Red Hat." \
       summary="Provides the Insights proxy container image for rhproxy." \
       distribution-scope="public"
