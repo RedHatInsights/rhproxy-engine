@@ -4,7 +4,7 @@ FROM registry.access.redhat.com/ubi9-minimal:9.7-1764794109 as base
 ENV RHPROXY_PRODUCT_VERSION="1.5"
 ENV RHPROXY_ENGINE_VERSION="${RHPROXY_PRODUCT_VERSION}.9"
 ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
-ENV NGINX_VERSION="1.24.0"
+ENV NGINX_VERSION="1.28.2"
 
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
