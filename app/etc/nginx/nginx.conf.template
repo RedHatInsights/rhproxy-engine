@@ -85,8 +85,9 @@ http {
         include             /opt/app-root/nginx/etc/nginx/mime.types;
         default_type        application/octet-stream;
 
-        listen              ${RHPROXY_WEB_SERVER_PORT} ssl http2;
-        listen              [::]:${RHPROXY_WEB_SERVER_PORT} ssl http2;
+        listen              ${RHPROXY_WEB_SERVER_PORT} ssl;
+        listen              [::]:${RHPROXY_WEB_SERVER_PORT} ssl;
+        http2               on;
         set $disabled       ${RHPROXY_WEB_SERVER_DISABLE};
 
         server_name         _;
