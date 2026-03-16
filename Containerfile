@@ -1,8 +1,8 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.7-1770267347 as base
+FROM registry.access.redhat.com/ubi9-minimal:9.7-1773204619 as base
 
 # Let's declare what is being built
 ENV RHPROXY_PRODUCT_VERSION="1.5"
-ENV RHPROXY_ENGINE_VERSION="${RHPROXY_PRODUCT_VERSION}.10"
+ENV RHPROXY_ENGINE_VERSION="${RHPROXY_PRODUCT_VERSION}.11"
 ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
 ENV NGINX_VERSION="1.28.2"
 
