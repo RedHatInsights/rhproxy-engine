@@ -193,13 +193,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-611.38.1.el9_7.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-611.45.1.el9_7.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 2982645
-    checksum: sha256:7ef7480570c8fa96e6f69aaa55bc5a79a668d8673ad610b705d2991bed6fc988
+    size: 2986145
+    checksum: sha256:fbdcc54177b86fc7047b81f326cde1d606f97b722169d2c6319e47559bad89bc
     name: kernel-headers
-    evr: 5.14.0-611.38.1.el9_7
-    sourcerpm: kernel-5.14.0-611.38.1.el9_7.src.rpm
+    evr: 5.14.0-611.45.1.el9_7
+    sourcerpm: kernel-5.14.0-611.45.1.el9_7.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-srpm-macros-1.0-14.el9.noarch.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 14098
@@ -466,20 +466,20 @@ arches:
     name: libxml2-devel
     evr: 2.9.13-14.el9_7
     sourcerpm: libxml2-2.9.13-14.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxslt-1.1.34-13.el9_6.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxslt-1.1.34-14.el9_7.1.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 248330
-    checksum: sha256:973e5e7144917cb7c9e0552a444159004b330346dc5212d744312304dfdd4610
+    size: 251669
+    checksum: sha256:2b1fc002c4f57960df438791f7dfb5d4defa964f1afc73c3556451bc7f5ea01c
     name: libxslt
-    evr: 1.1.34-13.el9_6
-    sourcerpm: libxslt-1.1.34-13.el9_6.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxslt-devel-1.1.34-13.el9_6.aarch64.rpm
+    evr: 1.1.34-14.el9_7.1
+    sourcerpm: libxslt-1.1.34-14.el9_7.1.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxslt-devel-1.1.34-14.el9_7.1.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 331061
-    checksum: sha256:79020e9e2790d55140ed120d06cfeedd1bdeebc26a1cb6eb7f33a4ff7f3c6a2e
+    size: 333696
+    checksum: sha256:b73e96e959a8cb76854daa1724b946851841e253f37876d5715bd37161697e92
     name: libxslt-devel
-    evr: 1.1.34-13.el9_6
-    sourcerpm: libxslt-1.1.34-13.el9_6.src.rpm
+    evr: 1.1.34-14.el9_7.1
+    sourcerpm: libxslt-1.1.34-14.el9_7.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/llvm-filesystem-20.1.8-3.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 9320
@@ -2244,20 +2244,20 @@ arches:
     name: systemtap-sdt-dtrace
     evr: 5.3-3.el9
     sourcerpm: systemtap-5.3-3.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/v/vim-common-8.2.2637-23.el9_7.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/v/vim-common-8.2.2637-23.el9_7.1.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 7342198
-    checksum: sha256:8d70cd5b588ae2468b39cc08c276c198c8419869ec662242a3a3e438032bde28
+    size: 7349818
+    checksum: sha256:c50df2c1d5f5dfe0e415c237cf28fbc7ecc99303d8f32f529170f7116465c476
     name: vim-common
-    evr: 2:8.2.2637-23.el9_7
-    sourcerpm: vim-8.2.2637-23.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/v/vim-enhanced-8.2.2637-23.el9_7.aarch64.rpm
+    evr: 2:8.2.2637-23.el9_7.1
+    sourcerpm: vim-8.2.2637-23.el9_7.1.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/v/vim-enhanced-8.2.2637-23.el9_7.1.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 1780829
-    checksum: sha256:ee4b8edac6e87664dcfad5660712a004628b4801576c68a21bd0917e7d5fee94
+    size: 1818616
+    checksum: sha256:d3d0e2b021997f0c6e951b20405d6abfbfd0e3defe65b8bd3cedc5464c519af2
     name: vim-enhanced
-    evr: 2:8.2.2637-23.el9_7
-    sourcerpm: vim-8.2.2637-23.el9_7.src.rpm
+    evr: 2:8.2.2637-23.el9_7.1
+    sourcerpm: vim-8.2.2637-23.el9_7.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/x/xml-common-0.6.3-58.el9.noarch.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 37016
@@ -2685,13 +2685,13 @@ arches:
     name: util-linux-core
     evr: 2.37.4-21.el9_7
     sourcerpm: util-linux-2.37.4-21.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/v/vim-filesystem-8.2.2637-23.el9_7.noarch.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/v/vim-filesystem-8.2.2637-23.el9_7.1.noarch.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
-    size: 13179
-    checksum: sha256:793710bbfc6627228c7811bdd3cbecb2c667a4581bd8b5fe9b9a2ebb20e57f79
+    size: 20544
+    checksum: sha256:cf19763151f587fbb5ecd77231f0e64c6a3328bbd2800c86fc0dcfce2058c506
     name: vim-filesystem
-    evr: 2:8.2.2637-23.el9_7
-    sourcerpm: vim-8.2.2637-23.el9_7.src.rpm
+    evr: 2:8.2.2637-23.el9_7.1
+    sourcerpm: vim-8.2.2637-23.el9_7.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/w/which-2.21-30.el9_6.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
     size: 41522
@@ -2906,13 +2906,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-611.38.1.el9_7.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-611.45.1.el9_7.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 3021673
-    checksum: sha256:d29c0b46854ac992dc8af47bb2e197c78564cf342bfe89b5c657bbb594b1f4eb
+    size: 3025189
+    checksum: sha256:eb6aafff64717dc24622c8990dfd50c2a5778b6ec71fac8360d28a524d22bc41
     name: kernel-headers
-    evr: 5.14.0-611.38.1.el9_7
-    sourcerpm: kernel-5.14.0-611.38.1.el9_7.src.rpm
+    evr: 5.14.0-611.45.1.el9_7
+    sourcerpm: kernel-5.14.0-611.45.1.el9_7.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-srpm-macros-1.0-14.el9.noarch.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 14098
@@ -3172,20 +3172,20 @@ arches:
     name: libxml2-devel
     evr: 2.9.13-14.el9_7
     sourcerpm: libxml2-2.9.13-14.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxslt-1.1.34-13.el9_6.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxslt-1.1.34-14.el9_7.1.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 250837
-    checksum: sha256:b22bb9f995e96b2b00711760c57fe4e93b4328815de61c39d53717b6a61f6d8c
+    size: 254259
+    checksum: sha256:d92873a046c78ae6837d8b23deecbfa1d6376b81bf587382e89ed345c1d5bad5
     name: libxslt
-    evr: 1.1.34-13.el9_6
-    sourcerpm: libxslt-1.1.34-13.el9_6.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxslt-devel-1.1.34-13.el9_6.x86_64.rpm
+    evr: 1.1.34-14.el9_7.1
+    sourcerpm: libxslt-1.1.34-14.el9_7.1.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxslt-devel-1.1.34-14.el9_7.1.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 331063
-    checksum: sha256:55b9166e32eed15f2921d8be35d3b81a799cc1aac2f68da1d699ac9862b753ff
+    size: 333727
+    checksum: sha256:749923533964a4d1fc6fb17487529cd19a1652e9e6e6796d87d772a58185383f
     name: libxslt-devel
-    evr: 1.1.34-13.el9_6
-    sourcerpm: libxslt-1.1.34-13.el9_6.src.rpm
+    evr: 1.1.34-14.el9_7.1
+    sourcerpm: libxslt-1.1.34-14.el9_7.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/llvm-filesystem-20.1.8-3.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 9374
@@ -4950,20 +4950,20 @@ arches:
     name: systemtap-sdt-dtrace
     evr: 5.3-3.el9
     sourcerpm: systemtap-5.3-3.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/v/vim-common-8.2.2637-23.el9_7.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/v/vim-common-8.2.2637-23.el9_7.1.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 7342876
-    checksum: sha256:1e5d44a6f8b23e0ca60236cd3b26e70d7342856f1fa2662a32761712527852a6
+    size: 7350664
+    checksum: sha256:6853dc915d795de255a8f8c2953ae0f37175735744493937f4417c2bbfafad34
     name: vim-common
-    evr: 2:8.2.2637-23.el9_7
-    sourcerpm: vim-8.2.2637-23.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/v/vim-enhanced-8.2.2637-23.el9_7.x86_64.rpm
+    evr: 2:8.2.2637-23.el9_7.1
+    sourcerpm: vim-8.2.2637-23.el9_7.1.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/v/vim-enhanced-8.2.2637-23.el9_7.1.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 1830587
-    checksum: sha256:80ebd61a3dc73155172bd69bb5774952a9fc3cd2acad1f97d28e1511ee30af44
+    size: 1836824
+    checksum: sha256:802248cbf6ba68e18a9674e564444167346e0fc2df17ed1c1734eca3ddfa8200
     name: vim-enhanced
-    evr: 2:8.2.2637-23.el9_7
-    sourcerpm: vim-8.2.2637-23.el9_7.src.rpm
+    evr: 2:8.2.2637-23.el9_7.1
+    sourcerpm: vim-8.2.2637-23.el9_7.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/x/xml-common-0.6.3-58.el9.noarch.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 37016
@@ -5391,13 +5391,13 @@ arches:
     name: util-linux-core
     evr: 2.37.4-21.el9_7
     sourcerpm: util-linux-2.37.4-21.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/v/vim-filesystem-8.2.2637-23.el9_7.noarch.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/v/vim-filesystem-8.2.2637-23.el9_7.1.noarch.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
-    size: 13179
-    checksum: sha256:793710bbfc6627228c7811bdd3cbecb2c667a4581bd8b5fe9b9a2ebb20e57f79
+    size: 20544
+    checksum: sha256:cf19763151f587fbb5ecd77231f0e64c6a3328bbd2800c86fc0dcfce2058c506
     name: vim-filesystem
-    evr: 2:8.2.2637-23.el9_7
-    sourcerpm: vim-8.2.2637-23.el9_7.src.rpm
+    evr: 2:8.2.2637-23.el9_7.1
+    sourcerpm: vim-8.2.2637-23.el9_7.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/w/which-2.21-30.el9_6.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 42038
