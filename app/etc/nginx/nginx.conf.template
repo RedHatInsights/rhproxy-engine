@@ -1,5 +1,4 @@
-
-load_module "/opt/app-root/nginx/usr/lib64/nginx/modules/ngx_http_proxy_connect_module.so";
+load_module "/opt/app-root/nginx/usr/lib64/nginx/modules/ngx_stream_module.so";
 
 worker_processes 1;
 error_log /dev/stderr notice;
@@ -16,59 +15,46 @@ http {
     server_names_hash_max_size     4096;
     server_names_hash_bucket_size   128;
 
-    # Let's tunnel only RedHat Insights upstream servers
-    server {
-        listen        ${RHPROXY_SERVICE_PORT};
-        resolver      ${RHPROXY_DNS_SERVER} ipv6=off;
-        set $disabled ${RHPROXY_DISABLE};
+    # Map to validate allowed server names for tunneling
+    map $connect_host $allowed_host {
+        default 0;
 
         # Supported RedHat Insights server names
-        include       rhproxy/redhat.server_names;
+        include       rhproxy/redhat.tunnel_map;
 
         # Supported EPEL server names
-        include       rhproxy/epel.server_names;
+        include       rhproxy/epel.tunnel_map;
 
         # Optional Mirror server names
-        include       rhproxy/mirror.server_names;
-
-        if ( $disabled = "1" ) {
-            return  503;
-        }
-
-        # Forward proxy for CONNECT requests (Tunneling)
-        proxy_connect;
-        proxy_connect_allow             443;
-        proxy_connect_connect_timeout   10s;
-        proxy_connect_data_timeout      60s;
-        proxy_next_upstream error timeout http_502;
-
-        # Forward proxy for non-CONNECT requests
-        location / {
-            proxy_pass 			            http://$host;
-            proxy_set_header Host       $host;
-            proxy_connect_timeout       10s;
-        }
+        include       rhproxy/mirror.tunnel_map;
     }
 
-    # Let's deny all other requests
+    # Let's tunnel only allowed upstream servers
     server {
         listen        ${RHPROXY_SERVICE_PORT};
         resolver      ${RHPROXY_DNS_SERVER} ipv6=off;
         set $disabled ${RHPROXY_DISABLE};
 
-        server_name   ~.+;
-
         if ( $disabled = "1" ) {
             return  503;
         }
 
-        # Forward proxy for CONNECT requests (Tunneling)
-        proxy_connect;
-        proxy_connect_allow             443;
-        proxy_connect_connect_timeout   10s;
-        proxy_connect_data_timeout      60s;
+        # Reject if host is not allowed
+        if ( $allowed_host = 0 ) {
+            return  404;
+        }
 
-        return  404;
+        # Handle CONNECT requests with tunnel_pass (nginx 1.30.0+)
+        location / {
+            # Only allow port 443 for tunneling
+            if ( $connect_port != 443 ) {
+                return 405;
+            }
+
+            tunnel_pass             $connect_host:$connect_port;
+            tunnel_connect_timeout  10s;
+            tunnel_timeout          60s;
+        }
     }
 
     log_format  fileserver  '$remote_addr - $remote_user [$time_local] "$request" '

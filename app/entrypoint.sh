@@ -24,26 +24,26 @@ CONFIG_ENV_VARS="\
 "
 
 # If the rhproxy services provides us with servers configuration files, let's
-# import those and create the server_names config files needed by NGINX.
-function server_to_server_names() {
+# import those and create the tunnel_map config files needed by NGINX.
+function server_to_tunnel_map() {
   if [ -s "${1}" ]; then
     cat "${1}" \
-    | egrep -v "^#|^$|^[ \t]*$" \
+    | grep -E -v "^#|^$|^[ \t]*$" \
     | sort -u \
-    | sed -e 's/^/server_name /g' -e 's/$/;/g'
+    | sed -e 's/$/ 1;/g'
   fi
 }
 
 if [ -s "${APP_RHPROXY_ENV}/redhat.servers" ]; then
-  server_to_server_names "${APP_RHPROXY_ENV}/redhat.servers" > "${RHPROXY_CONF_DIR}/redhat.server_names"
+  server_to_tunnel_map "${APP_RHPROXY_ENV}/redhat.servers" > "${RHPROXY_CONF_DIR}/redhat.tunnel_map"
 fi
 
 if [ -s "${APP_RHPROXY_ENV}/epel.servers" ]; then
-  server_to_server_names "${APP_RHPROXY_ENV}/epel.servers" > "${RHPROXY_CONF_DIR}/epel.server_names"
+  server_to_tunnel_map "${APP_RHPROXY_ENV}/epel.servers" > "${RHPROXY_CONF_DIR}/epel.tunnel_map"
 fi
 
 if [ -s "${APP_RHPROXY_ENV}/mirror.servers" ]; then
-  server_to_server_names "${APP_RHPROXY_ENV}/mirror.servers" > "${RHPROXY_CONF_DIR}/mirror.server_names"
+  server_to_tunnel_map "${APP_RHPROXY_ENV}/mirror.servers" > "${RHPROXY_CONF_DIR}/mirror.tunnel_map"
 fi
 
 envsubst "${CONFIG_ENV_VARS}" < "${NGINX_CONF_PATH}.template" > "${NGINX_CONF_PATH}"
@@ -61,19 +61,19 @@ if [ "${RHPROXY_DEBUG_CONFIG}" = "1" ]; then
     cat "${NGINX_CONF_PATH}"
     echo
     echo "----------------------------------------------------------------------"
-    echo "RedHat server names: ${RHPROXY_CONF_DIR}/redhat.server_names"
+    echo "Red Hat servers: ${RHPROXY_CONF_DIR}/redhat.tunnel_map"
     echo
-    cat "${RHPROXY_CONF_DIR}/redhat.server_names"
-    echo
-    echo "----------------------------------------------------------------------"
-    echo "EPEL server names: ${RHPROXY_CONF_DIR}/epel.server_names"
-    echo
-    cat "${RHPROXY_CONF_DIR}/epel.server_names"
+    cat "${RHPROXY_CONF_DIR}/redhat.tunnel_map"
     echo
     echo "----------------------------------------------------------------------"
-    echo "Optional mirror server names: ${RHPROXY_CONF_DIR}/mirror.server_names"
+    echo "EPEL servers: ${RHPROXY_CONF_DIR}/epel.tunnel_map"
     echo
-    cat "${RHPROXY_CONF_DIR}/mirror.server_names"
+    cat "${RHPROXY_CONF_DIR}/epel.tunnel_map"
+    echo
+    echo "----------------------------------------------------------------------"
+    echo "Optional mirror servers: ${RHPROXY_CONF_DIR}/mirror.tunnel_map"
+    echo
+    cat "${RHPROXY_CONF_DIR}/mirror.tunnel_map"
     echo
 fi
 

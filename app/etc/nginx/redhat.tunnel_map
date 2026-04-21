@@ -1,0 +1,3 @@
+# Red Hat server names for tunnel_pass mapping
+*.redhat.com 1;
+*.fedoraproject.org 1;

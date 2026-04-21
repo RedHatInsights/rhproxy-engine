@@ -54,7 +54,6 @@ RUN microdnf install -y\
       util-linux \
       vim
 
-# Build nginx with the http_proxy_connect
 FROM base as build
 
 RUN microdnf install -y\
@@ -151,7 +150,7 @@ COPY --from=build ${NGINX_BASE} ${NGINX_BASE}
 # Add rhproxy sources:
 RUN mkdir -p ${RHPROXY_CONF_DIR}
 ADD app/etc/nginx/nginx.conf.template ${NGINX_CONF_PATH}.template
-ADD app/etc/nginx/*.server_names ${RHPROXY_CONF_DIR}
+ADD app/etc/nginx/*.tunnel_map ${RHPROXY_CONF_DIR}
 ADD app/etc/*.sh ${APP_ROOT}/etc/
 
 # Copy and set the rhproxy entrypoint:
@@ -168,7 +167,6 @@ RUN mkdir -p ${APP_RHPROXY_ENV}
 
 # Let's stash our licenses in the proper directory
 RUN mkdir -p ${APP_LICENSES}/nginx
-RUN mkdir -p ${APP_LICENSES}/ngx_http_proxy_connect_module
 COPY --from=build ${APP_ROOT}/LICENSE ${APP_LICENSES}/.
 COPY --from=build ${APP_ROOT}/src/nginx-${NGINX_VERSION}/LICENSE ${APP_LICENSES}/nginx/.
 
