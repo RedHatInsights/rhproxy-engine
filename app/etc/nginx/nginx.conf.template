@@ -19,7 +19,7 @@ http {
     map $connect_host $allowed_host {
         default 0;
 
-        # Supported RedHat Insights server names
+        # Supported Red Hat Insights server names
         include       rhproxy/redhat.tunnel_map;
 
         # Supported EPEL server names
@@ -32,7 +32,7 @@ http {
     # Let's tunnel only allowed upstream servers
     server {
         listen        ${RHPROXY_SERVICE_PORT};
-        resolver      ${RHPROXY_DNS_SERVER} ipv6=off;
+        resolver      ${RHPROXY_DNS_SERVER};
         set $disabled ${RHPROXY_DISABLE};
 
         if ( $disabled = "1" ) {
