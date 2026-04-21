@@ -3,8 +3,7 @@ FROM registry.access.redhat.com/ubi9-minimal:9.7-1773204619 as base
 # Let's declare what is being built
 ENV RHPROXY_PRODUCT_VERSION="1.5"
 ENV RHPROXY_ENGINE_VERSION="${RHPROXY_PRODUCT_VERSION}.11"
-ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
-ENV NGINX_VERSION="1.28.2"
+ENV NGINX_VERSION="1.30.0"
 
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
@@ -127,7 +126,6 @@ RUN cd /opt/app-root/src/nginx-${NGINX_VERSION}/ \
 	    --with-stream_ssl_module \
 	    --with-stream_ssl_preread_module \
 	    --with-threads \
-	    --add-dynamic-module="/opt/app-root/src/ngx_http_proxy_connect_module-${PROXY_CONNECT_MODULE_VERSION}" \
       && mkdir -p ${CLIENT_BODY_TEMP_PATH} ${HTTP_PROXY_TEMP_PATH} ${HTTP_FASTCGI_TEMP_PATH} ${HTTP_UWSGI_TEMP_PATH} ${HTTP_SCGI_TEMP_PATH} \
       && make \
       && make install
@@ -173,7 +171,6 @@ RUN mkdir -p ${APP_LICENSES}/nginx
 RUN mkdir -p ${APP_LICENSES}/ngx_http_proxy_connect_module
 COPY --from=build ${APP_ROOT}/LICENSE ${APP_LICENSES}/.
 COPY --from=build ${APP_ROOT}/src/nginx-${NGINX_VERSION}/LICENSE ${APP_LICENSES}/nginx/.
-COPY --from=build ${APP_ROOT}/src/ngx_http_proxy_connect_module-${PROXY_CONNECT_MODULE_VERSION}/LICENSE ${APP_LICENSES}/ngx_http_proxy_connect_module/.
 
 # Let's have nginx own the app
 USER 0
