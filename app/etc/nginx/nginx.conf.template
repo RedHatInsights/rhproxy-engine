@@ -1,7 +1,7 @@
 
 load_module "/opt/app-root/nginx/usr/lib64/nginx/modules/ngx_http_proxy_connect_module.so";
 
-worker_processes 1;
+worker_processes auto;
 error_log /dev/stderr notice;
 pid /run/nginx.pid;
 
