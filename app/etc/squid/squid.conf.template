@@ -6,9 +6,9 @@ dns_nameservers ${RHPROXY_DNS_SERVER}
 acl CONNECT method CONNECT
 acl SSL_ports port 443
 
-acl redhat_domains dstdomain ${SQUID_CONF_DIR}/redhat.dstdomains
-acl epel_domains dstdomain ${SQUID_CONF_DIR}/epel.dstdomains
-acl mirror_domains dstdomain ${SQUID_CONF_DIR}/mirror.dstdomains
+acl redhat_domains dstdomain "${SQUID_CONF_DIR}/redhat.dstdomains"
+acl epel_domains dstdomain "${SQUID_CONF_DIR}/epel.dstdomains"
+acl mirror_domains dstdomain "${SQUID_CONF_DIR}/mirror.dstdomains"
 
 # Allow CONNECT to approved destinations on HTTPS port only
 http_access allow CONNECT SSL_ports redhat_domains
@@ -24,7 +24,7 @@ cache_log stdio:/dev/stderr
 cache_store_log none
 
 # No disk cache
-cache_dir null /tmp
+maximum_object_size 0 KB
 
 # PID file in a writable location
 pid_filename /run/squid.pid

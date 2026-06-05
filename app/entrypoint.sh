@@ -86,7 +86,9 @@ fi
 echo "Starting ${RHPROXY_NAME} version ${RHPROXY_ENGINE_VERSION} ..."
 
 if [ "${RHPROXY_DISABLE}" != "1" ]; then
-    squid -f "${SQUID_CONF_DIR}/squid.conf"
+    squid -N -f "${SQUID_CONF_DIR}/squid.conf" &
+    SQUID_PID=$!
+    trap 'kill ${SQUID_PID} 2>/dev/null; wait ${SQUID_PID} 2>/dev/null' EXIT
 fi
 
 "${NGINX_BASE}/usr/sbin/nginx" -g "daemon off;"
