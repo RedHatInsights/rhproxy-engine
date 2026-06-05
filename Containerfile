@@ -26,8 +26,8 @@ ENV NGINX_CONF_PATH=${NGINX_CONF_DIR}/nginx.conf
 ENV NGINX_CONFIGURATION_PATH=${NGINX_BASE}/etc/nginx.d
 ENV NGINX_LOG_PATH=/var/log/nginx
 
-# Let's define the rhproxy defaults
-ENV RHPROXY_CONF_DIR=${NGINX_CONF_DIR}/rhproxy
+# Let's define the squid defaults
+ENV SQUID_CONF_DIR=${APP_ROOT}/etc/squid
 
 # Let's declare the rhproxy configurable parameters
 ENV RHPROXY_DISABLE="0"
@@ -52,7 +52,8 @@ RUN microdnf install -y\
       procps-ng \
       less \
       util-linux \
-      vim
+      vim \
+      squid
 
 # Build nginx with the http_proxy_connect
 FROM base as build
@@ -149,9 +150,10 @@ RUN groupadd --gid ${NGINX_GID} ${NGINX_GROUP} \
 COPY --from=build ${NGINX_BASE} ${NGINX_BASE}
 
 # Add rhproxy sources:
-RUN mkdir -p ${RHPROXY_CONF_DIR}
+RUN mkdir -p ${SQUID_CONF_DIR}
+ADD app/etc/squid/squid.conf.template ${SQUID_CONF_DIR}/
+ADD app/etc/squid/*.dstdomains ${SQUID_CONF_DIR}/
 ADD app/etc/nginx/nginx.conf.template ${NGINX_CONF_PATH}.template
-ADD app/etc/nginx/*.server_names ${RHPROXY_CONF_DIR}
 ADD app/etc/*.sh ${APP_ROOT}/etc/
 
 # Copy and set the rhproxy entrypoint:

@@ -1,6 +1,4 @@
 
-load_module "/opt/app-root/nginx/usr/lib64/nginx/modules/ngx_http_proxy_connect_module.so";
-
 worker_processes auto;
 error_log /dev/stderr notice;
 pid /run/nginx.pid;
@@ -9,68 +7,7 @@ events {
     worker_connections 1024;
 }
 
-# Tunnel SSL/TLS Traffic to Insights upstream servers
 http {
-    access_log /dev/stdout;
-
-    server_names_hash_max_size     4096;
-    server_names_hash_bucket_size   128;
-
-    # Let's tunnel only RedHat Insights upstream servers
-    server {
-        listen        ${RHPROXY_SERVICE_PORT};
-        resolver      ${RHPROXY_DNS_SERVER} ipv6=off;
-        set $disabled ${RHPROXY_DISABLE};
-
-        # Supported RedHat Insights server names
-        include       rhproxy/redhat.server_names;
-
-        # Supported EPEL server names
-        include       rhproxy/epel.server_names;
-
-        # Optional Mirror server names
-        include       rhproxy/mirror.server_names;
-
-        if ( $disabled = "1" ) {
-            return  503;
-        }
-
-        # Forward proxy for CONNECT requests (Tunneling)
-        proxy_connect;
-        proxy_connect_allow             443;
-        proxy_connect_connect_timeout   10s;
-        proxy_connect_data_timeout      60s;
-        proxy_next_upstream error timeout http_502;
-
-        # Forward proxy for non-CONNECT requests
-        location / {
-            proxy_pass 			            http://$host;
-            proxy_set_header Host       $host;
-            proxy_connect_timeout       10s;
-        }
-    }
-
-    # Let's deny all other requests
-    server {
-        listen        ${RHPROXY_SERVICE_PORT};
-        resolver      ${RHPROXY_DNS_SERVER} ipv6=off;
-        set $disabled ${RHPROXY_DISABLE};
-
-        server_name   ~.+;
-
-        if ( $disabled = "1" ) {
-            return  503;
-        }
-
-        # Forward proxy for CONNECT requests (Tunneling)
-        proxy_connect;
-        proxy_connect_allow             443;
-        proxy_connect_connect_timeout   10s;
-        proxy_connect_data_timeout      60s;
-
-        return  404;
-    }
-
     log_format  fileserver  '$remote_addr - $remote_user [$time_local] "$request" '
                             '$status $body_bytes_sent "$http_referer" '
                             '"$http_user_agent" "$http_x_forwarded_for"';

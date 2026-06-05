@@ -1,0 +1,30 @@
+http_port ${RHPROXY_SERVICE_PORT}
+
+dns_nameservers ${RHPROXY_DNS_SERVER}
+
+# Access Control Lists
+acl CONNECT method CONNECT
+acl SSL_ports port 443
+
+acl redhat_domains dstdomain ${SQUID_CONF_DIR}/redhat.dstdomains
+acl epel_domains dstdomain ${SQUID_CONF_DIR}/epel.dstdomains
+acl mirror_domains dstdomain ${SQUID_CONF_DIR}/mirror.dstdomains
+
+# Allow CONNECT to approved destinations on HTTPS port only
+http_access allow CONNECT SSL_ports redhat_domains
+http_access allow CONNECT SSL_ports epel_domains
+http_access allow CONNECT SSL_ports mirror_domains
+
+# Deny all other requests
+http_access deny all
+
+# Log to container stdout/stderr
+access_log stdio:/dev/stdout combined
+cache_log stdio:/dev/stderr
+cache_store_log none
+
+# No disk cache
+cache_dir null /tmp
+
+# PID file in a writable location
+pid_filename /run/squid.pid
