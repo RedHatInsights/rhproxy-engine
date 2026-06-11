@@ -21,7 +21,7 @@ http_access deny all
 # Log to container stdout/stderr
 access_log stdio:/dev/stdout combined
 cache_log stdio:/dev/stderr
-cache_store_log none
+cache_store_log ${SQUID_CACHE_STORE_LOG}
 
 # No disk cache
 maximum_object_size 0 KB

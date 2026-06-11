@@ -39,10 +39,16 @@ fi
 echo "Starting ${RHPROXY_NAME} version ${RHPROXY_ENGINE_VERSION} ..."
 
 if [ "${RHPROXY_DISABLE}" != "1" ]; then
+    export SQUID_CACHE_STORE_LOG="none"
+    if [ "${RHPROXY_DEBUG}" = "1" ]; then
+        export SQUID_CACHE_STORE_LOG="stdio:/dev/stdout"
+    fi
+
     SQUID_CONFIG_ENV_VARS="\
 \$RHPROXY_SERVICE_PORT,\
 \$RHPROXY_DNS_SERVER,\
-\$SQUID_CONF_DIR\
+\$SQUID_CONF_DIR,\
+\$SQUID_CACHE_STORE_LOG\
 "
 
     # If the rhproxy service provides us with server lists, convert them to squid

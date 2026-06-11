@@ -1,3 +1,0 @@
-# RedHat server names
-server_name *.redhat.com;
-server_name *.fedoraproject.org;
