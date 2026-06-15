@@ -3,8 +3,7 @@ FROM registry.access.redhat.com/ubi9-minimal:9.8-1780378819 as base
 # Let's declare what is being built
 ENV RHPROXY_PRODUCT_VERSION="1.5"
 ENV RHPROXY_ENGINE_VERSION="${RHPROXY_PRODUCT_VERSION}.13"
-ENV PROXY_CONNECT_MODULE_VERSION="0.0.7"
-ENV NGINX_VERSION="1.28.2"
+ENV NGINX_VERSION="1.30.2"
 
 # Let's declare where we're installing nginx
 ENV APP_ROOT=/opt/app-root
@@ -27,11 +26,12 @@ ENV NGINX_CONF_PATH=${NGINX_CONF_DIR}/nginx.conf
 ENV NGINX_CONFIGURATION_PATH=${NGINX_BASE}/etc/nginx.d
 ENV NGINX_LOG_PATH=/var/log/nginx
 
-# Let's define the rhproxy defaults
-ENV RHPROXY_CONF_DIR=${NGINX_CONF_DIR}/rhproxy
+# Let's define the squid defaults
+ENV SQUID_CONF_DIR=${APP_ROOT}/etc/squid
 
 # Let's declare the rhproxy configurable parameters
 ENV RHPROXY_DISABLE="0"
+ENV RHPROXY_DEBUG="0"
 ENV RHPROXY_DEBUG_CONFIG="0"
 ENV RHPROXY_SERVICE_PORT=3128
 ENV RHPROXY_DNS_SERVER="1.1.1.1"
@@ -53,7 +53,8 @@ RUN microdnf install -y\
       procps-ng \
       less \
       util-linux \
-      vim
+      vim \
+      squid
 
 # Build nginx with the http_proxy_connect
 FROM base as build
@@ -127,7 +128,6 @@ RUN cd /opt/app-root/src/nginx-${NGINX_VERSION}/ \
 	    --with-stream_ssl_module \
 	    --with-stream_ssl_preread_module \
 	    --with-threads \
-	    --add-dynamic-module="/opt/app-root/src/ngx_http_proxy_connect_module-${PROXY_CONNECT_MODULE_VERSION}" \
       && mkdir -p ${CLIENT_BODY_TEMP_PATH} ${HTTP_PROXY_TEMP_PATH} ${HTTP_FASTCGI_TEMP_PATH} ${HTTP_UWSGI_TEMP_PATH} ${HTTP_SCGI_TEMP_PATH} \
       && make \
       && make install
@@ -151,9 +151,10 @@ RUN groupadd --gid ${NGINX_GID} ${NGINX_GROUP} \
 COPY --from=build ${NGINX_BASE} ${NGINX_BASE}
 
 # Add rhproxy sources:
-RUN mkdir -p ${RHPROXY_CONF_DIR}
+RUN mkdir -p ${SQUID_CONF_DIR}
+ADD app/etc/squid/squid.conf.template ${SQUID_CONF_DIR}/
+ADD app/etc/squid/*.dstdomains ${SQUID_CONF_DIR}/
 ADD app/etc/nginx/nginx.conf.template ${NGINX_CONF_PATH}.template
-ADD app/etc/nginx/*.server_names ${RHPROXY_CONF_DIR}
 ADD app/etc/*.sh ${APP_ROOT}/etc/
 
 # Copy and set the rhproxy entrypoint:
@@ -170,10 +171,8 @@ RUN mkdir -p ${APP_RHPROXY_ENV}
 
 # Let's stash our licenses in the proper directory
 RUN mkdir -p ${APP_LICENSES}/nginx
-RUN mkdir -p ${APP_LICENSES}/ngx_http_proxy_connect_module
 COPY --from=build ${APP_ROOT}/LICENSE ${APP_LICENSES}/.
 COPY --from=build ${APP_ROOT}/src/nginx-${NGINX_VERSION}/LICENSE ${APP_LICENSES}/nginx/.
-COPY --from=build ${APP_ROOT}/src/ngx_http_proxy_connect_module-${PROXY_CONNECT_MODULE_VERSION}/LICENSE ${APP_LICENSES}/ngx_http_proxy_connect_module/.
 
 # Let's have nginx own the app
 USER 0

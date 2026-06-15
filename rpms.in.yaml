@@ -8,6 +8,7 @@ packages:
   - less
   - util-linux
   - vim
+  - squid
   - gcc
   - gcc-c++
   - kernel-headers
