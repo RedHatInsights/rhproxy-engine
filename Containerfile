@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.8-1780378819 as base
+FROM registry.access.redhat.com/ubi9-minimal:9.8-1782797275 as base
 
 # Let's declare what is being built
 ENV RHPROXY_PRODUCT_VERSION="1.5"
