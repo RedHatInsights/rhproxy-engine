@@ -32,7 +32,7 @@ jobs:
 
       - name: Build Amd64 rhproxy-engine image
         id: build-image-amd64
-        uses: redhat-actions/buildah-build@v2
+        uses: redhat-actions/buildah-build@v3
         with:
           image: ${{ env.IMAGE_NAME }}
           archs: amd64
@@ -71,7 +71,7 @@ jobs:
 
       - name: Build Arm64 rhproxy-engine image
         id: build-image-arm64
-        uses: redhat-actions/buildah-build@v2
+        uses: redhat-actions/buildah-build@v3
         with:
           image: ${{ env.IMAGE_NAME }}
           archs: arm64
