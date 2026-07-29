@@ -45,7 +45,7 @@ jobs:
 
       - name: Push Amd64 To quay.io
         id: push-image-amd64
-        uses: redhat-actions/push-to-registry@v2
+        uses: redhat-actions/push-to-registry@v3
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ steps.build-image-amd64.outputs.tags }}
@@ -84,7 +84,7 @@ jobs:
 
       - name: Push Arm64 To quay.io
         id: push-image-arm64
-        uses: redhat-actions/push-to-registry@v2
+        uses: redhat-actions/push-to-registry@v3
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ steps.build-image-arm64.outputs.tags }}
