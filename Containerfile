@@ -1,8 +1,8 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.8-1782797275 as base
+FROM registry.access.redhat.com/ubi9-minimal:9.8-1786380870 as base
 
 # Let's declare what is being built
 ENV RHPROXY_PRODUCT_VERSION="1.5"
-ENV RHPROXY_ENGINE_VERSION="${RHPROXY_PRODUCT_VERSION}.14"
+ENV RHPROXY_ENGINE_VERSION="${RHPROXY_PRODUCT_VERSION}.15"
 ENV NGINX_VERSION="1.30.2"
 
 # Let's declare where we're installing nginx
