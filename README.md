@@ -1,3 +1,11 @@
+> [!CAUTION]
+> **⚠️ END-OF-LIFE (EOL) NOTICE:**
+>
+> The Insights proxy project has reached End-Of-Life as of September 2026 and is no longer maintained. The repository has been archived for historical purposes.
+>
+> * **No Updates:** No new features, bug fixes, or security patches will be released.
+> * **No Support:** Issues and Pull Requests are closed and unmonitored.
+
 # rhproxy-engine
 Insights proxy NGINX container to RedHat's Insights services.
 
